@@ -2,13 +2,6 @@
   max-width: 800px;
 }
 
-.header{
-
-}
-
-.body{
-
-}
-.footer{
-
+.header > * > *,.body > * > *,.footer > * > *{
+  display: inline-block;
 }
