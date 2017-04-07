@@ -1,11 +1,24 @@
 .container{
-  max-width: 800px;
+  max-width: 1000px;
 }
 
 .header > * > *,.footer > *{
   display: inline-block;
 }
 
-.startpetition{
-	
+.header .inscription .number {
+  padding-left: 3px;
+  width: 850px;
+}
+.header .inscription .connection {
+  padding-right: 3px;
+  width: 100px;
+}
+
+.header .main .title{
+  padding-left: 3px;
+  width:800px;
+}
+.header .main .startpetition {
+  height: 100px;
 }
