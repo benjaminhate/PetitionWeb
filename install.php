@@ -31,6 +31,7 @@ $createUsers="CREATE TABLE IF NOT EXISTS Users (
   surname VARCHAR(255) NOT NULL,
   pseudo VARCHAR(255) NOT NULL,
   mail VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
   PRIMARY KEY (id)
 )";
 

@@ -6,22 +6,22 @@
   margin-top: 5px;
 }
 
-.header > * > *,.footer > *{
+.header > * > *,.footer > *,.header .top-bar .top-right-bar > *,.header .main{
   display: inline-block;
 }
 
-.header .inscription .number {
+.header .top-bar .number {
+  float: left;
   padding-left: 3px;
-  width: 850px;
-}
-.header .inscription .connection {
-  padding-right: 3px;
-  width: 100px;
+  width: 300px;
 }
 
-  .header .main{
-    display: inline-block;
-  }
+.header .top-bar .top-right-bar{
+  float: right;
+  margin: 0px 3px;
+  padding: 0px 3px;
+  max-width: 700px;
+}
 
     .header .main .title{
         padding-left: 3px;
@@ -118,4 +118,9 @@
 }
 .footer .right .top a{
   color: #000000;
+}
+
+.startpetitionfail{
+  border: 0px;
+  resize: none;
 }
