@@ -1,0 +1,138 @@
+.container{
+  max-width: 1000px;
+}
+
+.header{
+  margin-top: 5px;
+}
+
+.header > * > *,.footer > *,.header .top-bar .top-right-bar > *,.header .main{
+  display: inline-block;
+}
+
+.header .top-bar .number {
+  float: left;
+  padding-left: 3px;
+  width: 300px;
+}
+
+.header .top-bar .top-right-bar{
+  float: right;
+  margin: 0px 3px;
+  padding: 0px 3px;
+  max-width: 700px;
+}
+
+    .header .main .title{
+        padding-left: 3px;
+        margin-top: 10px;
+        float: left;
+        width:800px;
+      }
+
+      .startpetition{
+        width: 140px;
+      }
+
+        .startpetition a{
+          color:#be812b;
+        }
+
+        .startpetition a:hover{
+          color:#EEA236;
+        }
+
+        .startpetition .text{
+          width: 60px;
+          float: left;
+          font-size: 20px;
+        }
+
+        .startpetition .fa{
+          width: 60px;
+          margin-top: 20px;
+          float:right;
+          font-size: 60px;
+          float: right;
+        }
+
+.menu{
+  float: left;
+  max-width: 600px;
+}
+
+.menu .navbar{
+  margin-bottom: 0px;
+  border: 0px;
+  background-color: #77511b;
+}
+
+.menu .navbar > *{
+  max-width: 600px;
+}
+
+.navbar-inverse .navbar-nav > li > a{
+  color: #efefef;
+}
+
+.navigation{
+  width: 950px;
+  display: inline-block;
+  background-color: #77511b;
+  border-color: #080808;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.search{
+  margin-top: 1px;
+  margin-right: 5px;
+  float:right;
+}
+
+.search button{
+  margin-top: 2px;
+  font-size: 25px;
+}
+.maininscription .fiche{
+  width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.maininscription .click {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer{
+  width: 950px;
+}
+
+.footer .copyright{
+  float: left;
+  font-size: 12px;
+}
+
+.footer .right{
+  display: inline-block;
+  float:right;
+}
+
+.footer .right .name{
+  float: left;
+  margin-right: 5px;
+}
+.footer .right .top{
+  float:right;
+}
+.footer .right .top a{
+  color: #000000;
+}
+
+.startpetitionfail{
+  border: 0px;
+  resize: none;
+}
+.dropdown a:hover{
+  color:#EEA236;
+}

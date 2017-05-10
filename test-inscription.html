@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Test local</title>
+	<title>Test local Inscription</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="style-test-local.css">
+	<link rel="stylesheet" type="text/css" href="style-inscription.css">
 	<link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css">
 </head>
 <body>
@@ -87,34 +87,38 @@
 				</div>
 			</div>
 		</div>
-		<div class="body">
-			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-          <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-          <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-          <div class="item active">
-            <img src="IMG_1666.JPG">
-          </div>
-          <div class="item">
-            <img src="IMG_2270.JPG">
-          </div>
-          <div class="item">
-            <img src="IMG_2291.JPG">
-          </div>
-        </div>
-        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+    <div class="Inscription">
+
+
+  <div class="maininscription">
+
+    <form class="form-signin">
+      <div class="fiche">
+        <h2 class="form-signin-heading">Incription</h2>
+        <label for="inputName" class="sr-only">Name</label> <! je comprends pas trop ce que ca fait >
+        <input type="name" id="inputName" class="form-control" placeholder="Nom" required autofocus>
+        <label for="inputSurname" class="sr-only">Surname</label> <! je comprends pas trop ce que ca fait >
+        <input type="surname" id="inputSurname" class="form-control" placeholder="Prénom" required autofocus>
+        <label for="inputPseudo" class="sr-only">Pseudo</label> <! je comprends pas trop ce que ca fait >
+        <input type="pseudo" id="inputPseudo" class="form-control" placeholder="Pseudo" required autofocus>
+        <label for="inputEmail" class="sr-only">Email address</label> <! je comprends pas trop ce que ca fait >
+        <input type="email" id="inputEmail" class="form-control" placeholder="Adreese Email" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Mot de Passe" required>
+
       </div>
-		</div>
+      <div class="click">
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Finaliser</button>
+    </div>
+    </form>
+
+  </div> <!-- /container -->
+
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    </div>
 		<div class="footer">
 			<div class="copyright">
 				<i class="fa fa-copyright" aria-hidden="true"> 2017 Titre du site.com</i>
