@@ -65,4 +65,6 @@ echo mysqli_error($connect);
 
 mysqli_close($connect);
 
+echo "<p>Installation complete</p>";
+
 ?>

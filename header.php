@@ -98,9 +98,13 @@
 
     </div>
     <div class="search">
-      <form class="search" action="index.php" method="get">
-        <input type="search" name="search" placeholder="Rechercher des pétitions">
-        <button type="submit"><i class="fa fa-search"></i></button>
+      <form class="navbar-form search" action="index.php" method="get">
+        <div class="input-group add-on">
+          <input class="form-control" placeholder="Recherche" name="search" type="search">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
       </form>
     </div>
 

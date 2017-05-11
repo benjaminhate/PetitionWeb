@@ -71,8 +71,12 @@
   max-width: 600px;
 }
 
-.navbar-inverse .navbar-nav > li > a{
+.menu .navbar-inverse .navbar-nav > li > a{
   color: #efefef;
+}
+
+.menu .navbar-inverse .navbar-nav > .open > a{
+  background-color: #5f4015;
 }
 
 .navigation{
@@ -85,14 +89,18 @@
 }
 
 .search{
-  margin-top: 1px;
-  margin-right: 5px;
   float:right;
 }
 
-.search button{
-  margin-top: 2px;
-  font-size: 25px;
+.fiche{
+  width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.click {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .footer{
@@ -123,4 +131,27 @@
 .startpetitionfail{
   border: 0px;
   resize: none;
+}
+
+.dropdown a:hover{
+  color:#EEA236;
+}
+
+.form-control{
+  margin-bottom: 5px;
+}
+
+.form-control.passfail, .errorUserExist, .errorPseudoUsed, .form-control.mailfail{
+  border: 1px solid red;
+}
+.form-control.passsuccess, .form-control.mailsuccess{
+  border: 1px solid green;
+}
+
+.carousel-control .fa{
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  margin-left: -15px;
+  margin-top: -15px;
 }

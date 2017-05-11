@@ -69,12 +69,32 @@ function getAllUsers(){
 
 function getUser($id){
 	$connect=connection();
-	$getUser="SELECT * FROM Categories WHERE id=$id";
+	$getUser="SELECT * FROM Users WHERE id=$id";
 	$res=mysqli_query($connect,$getUser);
 	$user=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
 	mysqli_close($connect);
 	return $user;
+}
+
+function getUserByMail($mail){
+	$connect=connection();
+	$getUserByMail="SELECT * FROM Users WHERE mail='".$mail."'";
+	$res=mysqli_query($connect,$getUserByMail);
+	$userByMail=mysqli_fetch_assoc($res);
+	mysqli_free_result($res);
+	mysqli_close($connect);
+	return $userByMail;
+}
+
+function getUserByPseudo($pseudo){
+	$connect=connection();
+	$getUserByPseudo="SELECT * FROM Users WHERE pseudo='".$pseudo."'";
+	$res=mysqli_query($connect,$getUserByPseudo);
+	$userByPseudo=mysqli_fetch_assoc($res);
+	mysqli_free_result($res);
+	mysqli_close($connect);
+	return $userByPseudo;
 }
 
 function addPetition($infos){
@@ -135,11 +155,13 @@ function getNbSubscribers(){
 
 function sign_in($email,$password){
 	$connect=connection();
-	$check="SELECT * FROM Users WHERE mail='".$email."'";
-	$res=mysqli_query($connect,$check);
-	$userExist=mysqli_fetch_assoc($res);
+	$userExist=getUserByMail($email);
 	if(is_null($userExist)){
-		header('Location:index.php?msg=errorConnectionUserNotExist');
+		if(isset($_POST[startpetitionfail])){
+			header("Location:index.php?signin&msg=errorConnection&startpetitionfail");
+		}else{
+			header("Location:index.php?signin&msg=errorConnection");
+		}
 	}else{
 		if($userExist['password']==sha1($password)){
 			$_SESSION['id']=$userExist['id'];
@@ -153,7 +175,11 @@ function sign_in($email,$password){
 				header('Location:profile.php');
 			}
 		}else{
-			header('Location:index.php?msg=errorConnectionWrongPassword');
+			if(isset($_POST[startpetitionfail])){
+				header("Location:index.php?signin&msg=errorConnection&startpetitionfail");
+			}else{
+				header("Location:index.php?signin&msg=errorConnection");
+			}
 		}
 	} 
 	mysqli_close($connect);
@@ -161,16 +187,18 @@ function sign_in($email,$password){
 
 function sign_up($name,$surname,$pseudo,$email,$password){
 	$connect=connection();
-	$check="SELECT * FROM Users WHERE mail='".$email."'";
-	$res=mysqli_query($connect,$check);
-	$userExist=mysqli_fetch_assoc($res);
-	mysqli_free_result($res);
+	$userExist=getUserByMail($email);
+	$pseudoExist=getUserByPseudo($pseudo);
 	if($userExist!=NULL){
-		header('Location: index.php?errorUserExist');
+		header('Location: index.php?signup&errorUserExist');
 	}else{
-		$insert="INSERT INTO Users (name,surname,pseudo,mail,password) VALUES ('".$name."','".$surname."','".$pseudo."','".$email."','".sha1($password)."')";
-		mysqli_query($connect,$insert);
-		header('Location:index.php?signin');
+		if($pseudoExist!=NULL){
+			header('Location: index.php?signup&errorPseudoUsed');
+		}else{
+			$insert="INSERT INTO Users (name,surname,pseudo,mail,password) VALUES ('".$name."','".$surname."','".$pseudo."','".$email."','".sha1($password)."')";
+			mysqli_query($connect,$insert);
+			header('Location:index.php?signin');
+		}
 	}
 	mysqli_close($connect);
 }
