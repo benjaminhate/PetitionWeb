@@ -17,7 +17,7 @@
     	}
     	$id=$_SESSION['id'];
     ?>
-    <title><?php $GLOBALS['siteName'] ?></title>
+    <title><?php echo $GLOBALS['siteName']; ?></title>
 </head>
 <body>
 	<div class="container">

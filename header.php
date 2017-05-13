@@ -10,7 +10,7 @@
       <?php
         if(isset($_SESSION['id'])){
       ?>
-        <a href="profile.php" class="alert"><?php echo $_SESSION['pseudo'] ?></a>
+        <a href="profile.php" class="btn btn-primary"><?php echo $_SESSION['pseudo'] ?></a>
       <?php
         }else{
       ?>

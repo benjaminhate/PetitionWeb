@@ -9,11 +9,19 @@
       session_start();
       include('functions.php');
 
-      if(isset($_POST['signin']) && isset($_POST['email']) && isset($_POST['password'])){
-        sign_in($_POST['email'],$_POST['password']);
+      if(isset($_POST['signin'])){
+        if(!empty($_POST['email']) && !empty($_POST['password'])){
+          sign_in($_POST['email'],$_POST['password']);
+        }else{
+          header('Location:index.php?signin&errorNullValue');
+        }
       }
-      if(isset($_POST['signup']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['pseudo'])){
-        sign_up($_POST['name'],$_POST['surname'],$_POST['pseudo'],$_POST['email'],$_POST['password']);
+      if(isset($_POST['signup'])){
+        if(!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['confirm_password']) && !empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['pseudo'])){
+          sign_up($_POST['name'],$_POST['surname'],$_POST['pseudo'],$_POST['email'],$_POST['password'],$_POST['confirm_password']);
+        }else{
+          header('Location:index.php?signup&errorNullValue');
+        }
       }
     ?>
     <title><?php echo $GLOBALS['siteName']; ?></title>
@@ -64,6 +72,13 @@
               <div class="fiche">
                 <h2 class="form-signin-heading">Incription</h2>
                 <?php
+                if(isset($_GET['errorNullValue'])){
+                ?>
+                <div class="alert alert-danger">Un ou plusieurs champs sont nuls.</div>
+                <?php
+                }
+                ?>
+                <?php
                 if(isset($_GET['errorPseudoUsed'])){
                 ?>
                 <div class="alert alert-danger">Le pseudo est déjà utlisé.</div>
@@ -74,6 +89,48 @@
                 if(isset($_GET['errorUserExist'])){
                 ?>
                 <div class="alert alert-danger">L'adresse email est déjà utlisée.</div>
+                <?php
+                }
+                ?>
+                <?php
+                if(isset($_GET['errorMailIncorrect'])){
+                ?>
+                <div class="alert alert-danger">L'adresse email est incorrecte.</div>
+                <?php
+                }
+                ?>
+                <?php
+                if(isset($_GET['errorPseudoIncorrect'])){
+                ?>
+                <div class="alert alert-danger">Le pseudo est trop court.</div>
+                <?php
+                }
+                ?>
+                <?php
+                if(isset($_GET['errorNameIncorrect'])){
+                ?>
+                <div class="alert alert-danger">Le nom est trop court.</div>
+                <?php
+                }
+                ?>
+                <?php
+                if(isset($_GET['errorSurnameIncorrect'])){
+                ?>
+                <div class="alert alert-danger">Le prénom est trop court.</div>
+                <?php
+                }
+                ?>
+                <?php
+                if(isset($_GET['errorPassIncorrect'])){
+                ?>
+                <div class="alert alert-danger">Le mot de passe est trop court.</div>
+                <?php
+                }
+                ?>
+                <?php
+                if(isset($_GET['errorPassNotVerified'])){
+                ?>
+                <div class="alert alert-danger">Le mot de passe n'est pas identique à sa confirmation.</div>
                 <?php
                 }
                 ?>
@@ -88,7 +145,7 @@
                 <label for="InputPassword">Password</label>
                 <input type="password" id="pw1" name="password" placeholder="Password" class="form-control" oninput="validateSignUpForm()">
                 <label for="InputConfirmPassword">Confirm Password</label>
-                <input type="password" id="pw2" name="confim_password" placeholder="Confirm Password" class="form-control" oninput="validateSignUpForm()">
+                <input type="password" id="pw2" name="confirm_password" placeholder="Confirm Password" class="form-control" oninput="validateSignUpForm()">
               </div>
               <br>
               <div class="click">
@@ -130,7 +187,7 @@
               </div>
               <br>
               <div class="click">
-                <button name="signin" id="buttonSignIn" class="btn btn-lg btn-primary btn-block" type="submit" disabled="disabled">Finaliser</button>
+                <button name="signin" id="buttonSignIn" class="btn btn-lg btn-primary btn-block" type="submit" disabled="disabled">Connexion</button>
               </div>
             </form>
           </div>
@@ -147,42 +204,29 @@
     function checkPass(){
       var pass1=document.getElementById("pw1");
       var pass2=document.getElementById("pw2");
-      pass1.classList.remove("passsuccess");
-      pass2.classList.remove("passsuccess");
-      if(pass1.value==pass2.value || !pass1.value || !pass2.value){
-        pass1.classList.remove("passfail");
-        pass2.classList.remove("passfail");
-        if(pass1.value==pass2.value && pass1.value && pass2.value){
-          pass1.classList.add("passsuccess");
-          pass2.classList.add("passsuccess");
+      pass1.classList.remove("success");
+      pass2.classList.remove("success");
+      if((pass1.value==pass2.value && pass1.value.length>5) || !pass1.value || !pass2.value){
+        pass1.classList.remove("fail");
+        pass2.classList.remove("fail");
+        if(pass1.value==pass2.value && pass1.value.length>5 && pass2.value.length>5){
+          pass1.classList.add("success");
+          pass2.classList.add("success");
           return true;
         }
         return false;
       }else{
-        pass1.classList.add("passfail");
-        pass2.classList.add("passfail");
+        pass1.classList.add("fail");
+        pass2.classList.add("fail");
         return false;
       }
     }
 
     function validateSignInForm(){
-      var email=document.getElementById("emailIn");
+      var email=document.getElementById("emailIn").value;
       var password=document.getElementById("pwIn").value;
       var button=document.getElementById("buttonSignIn");
-      var regEx=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-      var checkEmail=regEx.test(email.value);
-      if(!checkEmail){
-        if(email.value){
-          email.classList.add('mailfail');
-        }else{
-          email.classList.remove('mailfail');
-        }
-        email.classList.remove('mailsuccess');
-      }else{
-        email.classList.remove('mailfail');
-        email.classList.add('mailsuccess');
-      }
-      if(!checkEmail || !password){
+      if(!email || !password){
         button.disabled=true;
       }else{
         button.disabled=false;
@@ -190,8 +234,8 @@
     }
 
     function validateSignUpForm(){
-      var name=document.getElementById("name").value;
-      var surname=document.getElementById("surname").value;
+      var name=document.getElementById("name");
+      var surname=document.getElementById("surname");
       var pseudo=document.getElementById("pseudo");
       var email=document.getElementById("emailUp");
       var button=document.getElementById("buttonSignUp");
@@ -200,18 +244,54 @@
       email.classList.remove('errorUserExist');
       var regEx=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       var checkEmail=regEx.test(email.value);
+      var checkName=name.value.length>1;
+      var checkSurname=surname.value.length>1;
+      var checkPseudo=pseudo.value.length>1;
       if(!checkEmail){
         if(email.value){
-          email.classList.add('mailfail');
+          email.classList.add('fail');
         }else{
-          email.classList.remove('mailfail');
+          email.classList.remove('fail');
         }
-        email.classList.remove('mailsuccess');
+        email.classList.remove('success');
       }else{
-        email.classList.remove('mailfail');
-        email.classList.add('mailsuccess');
+        email.classList.remove('fail');
+        email.classList.add('success');
       }
-      if(!name || !surname || !pseudo.value || !checkEmail || !checkPassword){
+      if(!checkPseudo){
+        if(pseudo.value){
+          pseudo.classList.add('fail');
+        }else{
+          pseudo.classList.remove('fail');
+        }
+        pseudo.classList.remove('success');
+      }else{
+        pseudo.classList.remove('fail');
+        pseudo.classList.add('success');
+      }
+      if(!checkName){
+        if(name.value){
+          name.classList.add('fail');
+        }else{
+          name.classList.remove('fail');
+        }
+        name.classList.remove('success');
+      }else{
+        name.classList.remove('fail');
+        name.classList.add('success');
+      }
+      if(!checkSurname){
+        if(surname.value){
+          surname.classList.add('fail');
+        }else{
+          surname.classList.remove('fail');
+        }
+        surname.classList.remove('success');
+      }else{
+        surname.classList.remove('fail');
+        surname.classList.add('success');
+      }
+      if( !checkName || !checkSurname || !checkPseudo || !checkEmail || !checkPassword){
         button.disabled=true;
       }else{
         button.disabled=false;

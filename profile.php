@@ -17,7 +17,7 @@
     	$email=$_SESSION['mail'];
     	$nbSigned=getNbPetitionsSigned($_SESSION['id'])['count(*)'];
     ?>
-    <title><?php $GLOBALS['siteName'] ?></title>
+    <title><?php echo $GLOBALS['siteName']; ?></title>
 </head>
 <body>
 	<div class="container">

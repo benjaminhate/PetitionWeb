@@ -141,10 +141,10 @@
   margin-bottom: 5px;
 }
 
-.form-control.passfail, .errorUserExist, .errorPseudoUsed, .form-control.mailfail{
+.form-control.fail, .errorUserExist, .errorPseudoUsed{
   border: 1px solid red;
 }
-.form-control.passsuccess, .form-control.mailsuccess{
+.form-control.success{
   border: 1px solid green;
 }
 

@@ -162,42 +162,72 @@ function sign_in($email,$password){
 		}else{
 			header("Location:index.php?signin&msg=errorConnection");
 		}
-	}else{
-		if($userExist['password']==sha1($password)){
-			$_SESSION['id']=$userExist['id'];
-			$_SESSION['name']=$userExist['name'];
-			$_SESSION['surname']=$userExist['surname'];
-			$_SESSION['pseudo']=$userExist['pseudo'];
-			$_SESSION['mail']=$userExist['mail'];
-			if(isset($_POST['startpetitionfail'])){
-				header('Location:home.php?startpetition');
-			}else{
-				header('Location:profile.php');
-			}
+	}
+	if($userExist['password']==sha1($password+$email)){
+		$_SESSION['id']=$userExist['id'];
+		$_SESSION['name']=$userExist['name'];
+		$_SESSION['surname']=$userExist['surname'];
+		$_SESSION['pseudo']=$userExist['pseudo'];
+		$_SESSION['mail']=$userExist['mail'];
+		if(isset($_POST['startpetitionfail'])){
+			header('Location:home.php?startpetition');
 		}else{
-			if(isset($_POST[startpetitionfail])){
-				header("Location:index.php?signin&msg=errorConnection&startpetitionfail");
-			}else{
-				header("Location:index.php?signin&msg=errorConnection");
-			}
+			header('Location:profile.php');
 		}
-	} 
+	}else{
+		if(isset($_POST[startpetitionfail])){
+			header("Location:index.php?signin&msg=errorConnection&startpetitionfail");
+		}else{
+			header("Location:index.php?signin&msg=errorConnection");
+		}
+	}
 	mysqli_close($connect);
 }
 
-function sign_up($name,$surname,$pseudo,$email,$password){
+function sign_up($name,$surname,$pseudo,$email,$password,$password2){
 	$connect=connection();
 	$userExist=getUserByMail($email);
 	$pseudoExist=getUserByPseudo($pseudo);
-	if($userExist!=NULL){
-		header('Location: index.php?signup&errorUserExist');
+	$regEx="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/";
+	$checkMail=preg_match($regEx, $email);
+	$checkPseudo=strlen($pseudo)>1;
+	$checkName=strlen($name)>1;
+	$checkSurname=strlen($surname)>1;
+	$checkPass=strlen($password)>5;
+	$checkPass2=$password==$password2;
+	if(!$checkPass2){
+		header('Location:index.php?signup&errorPassNotVerified');
 	}else{
-		if($pseudoExist!=NULL){
-			header('Location: index.php?signup&errorPseudoUsed');
+		if(!$checkPass){
+			header('Location:index.php?signup&errorPassIncorrect');
 		}else{
-			$insert="INSERT INTO Users (name,surname,pseudo,mail,password) VALUES ('".$name."','".$surname."','".$pseudo."','".$email."','".sha1($password)."')";
-			mysqli_query($connect,$insert);
-			header('Location:index.php?signin');
+			if(!$checkMail){
+				header('Location:index.php?signup&errorMailIncorrect');
+			}else{
+				if(!$checkPseudo){
+					header('Location:index.php?signup&errorPseudoIncorrect');
+				}else{
+					if(!$checkName){
+						header('Location:index.php?signup&errorNameIncorrect');
+					}else{
+						if(!$checkSurname){
+							header('Location:index.php?signup&errorSurnameIncorrect');
+						}else{
+							if($userExist!=NULL){
+								header('Location: index.php?signup&errorUserExist');
+							}else{
+								if($pseudoExist!=NULL){
+									header('Location: index.php?signup&errorPseudoUsed');
+								}else{
+									$insert="INSERT INTO Users (name,surname,pseudo,mail,password) VALUES ('".$name."','".$surname."','".$pseudo."','".$email."','".sha1($password+$email)."')";
+									mysqli_query($connect,$insert);
+									header('Location:index.php?signin');
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	mysqli_close($connect);
