@@ -3,7 +3,7 @@
   <div class="top-bar">
     <div class="number">
       <i class="fa fa-users" aria-hidden="true"></i>
-      Nombres de personnes inscrites : <?php echo $GLOBALS['nbSubs'] ?>
+      Nombres de personnes inscrites : <?php echo getNbSubscribers()['count(*)']; ?>
     </div>
     <div class="top-right-bar">
       <div class="inscription">
@@ -81,7 +81,7 @@
                             $categories=getAllCategories();
                             foreach ($categories as $key => $value) {
                           ?>
-                          <li><a href="index.php?category=<?php echo $value['id']; ?>"><?php echo $value['name']; ?></a></li>
+                          <li><a href="index.php?petition=all&category=<?php echo $value['id']; ?>"><?php echo $value['name']; ?></a></li>
                           <?php
                             }
                           ?>

@@ -6,9 +6,9 @@ function connection(){
   return mysqli_connect($GLOBALS['dbServ'],$GLOBALS['dbUser'],$GLOBALS['dbPass'],$GLOBALS['dbName']);
 }
 
-function addCategory($infos){
+function addCategory($name){
   $connect=connection();
-  $addCat="INSERT INTO Categories (name) VALUES ('$infos[name]')";
+  $addCat="INSERT INTO Categories (name) VALUES ('$name')";
   mysqli_query($connect,$addCat);
   mysqli_close($connect);
 }
@@ -23,7 +23,7 @@ function getAllCategories(){
 	return $categories;
 }
 
-function getCategory($id){
+function getCategoryById($id){
 	$connect=connection();
 	$getCategory="SELECT * FROM Categories WHERE id=$id";
 	$res=mysqli_query($connect,$getCategory);
@@ -33,9 +33,9 @@ function getCategory($id){
 	return $category;
 }
 
-function addUser($infos){
+function addUser($name,$surname,$pseudo,$email,$password){
 	$connect=connection();
-	$addUser="INSERT INTO Users (name,surname,pseudo,mail) VALUES ('$infos[name]','$infos[surname]','$infos[pseudo]','$infos[mail]')";
+	$addUser="INSERT INTO Users (name,surname,pseudo,mail,password) VALUES ('".$name."','".$surname."','".$pseudo."','".$email."','".$password."')";
 	mysqli_query($connect,$addUser);
 	mysqli_close($connect);
 }
@@ -67,9 +67,9 @@ function getAllUsers(){
 	return $users;
 }
 
-function getUser($id){
+function getUserById($id){
 	$connect=connection();
-	$getUser="SELECT * FROM Users WHERE id=$id";
+	$getUser="SELECT * FROM Users WHERE id='".$id."'";
 	$res=mysqli_query($connect,$getUser);
 	$user=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
@@ -99,9 +99,9 @@ function getUserByPseudo($pseudo){
 
 function addPetition($infos){
 	$connect=connection();
-	$addPetition="INSERT INTO Petitions (title,categoryId,expSign,author,userId,description,dateEnd,recipient) VALUES 
-		('$infos[title]','$infos[categoryId]','$infos[expSign]','$infos[author]','$infos[userId]','$infos[description]','$infos[dateEnd]','$infos[recipient]')";
+	$addPetition="INSERT INTO Petitions (title,categoryId,nbSign,expSign,userId,description,dateEnd) VALUES ('".$infos['title']."','".$infos['categoryId']."',0,".$infos['expSign'].",'".$infos['userId']."','".$infos['description']."',".$infos['dateEnd'].")";
 	mysqli_query($connect,$addPetition);
+	echo "<p>".mysqli_error($connect)."</p>";
 	mysqli_close($connect);
 }
 
@@ -117,17 +117,26 @@ function getAllPetitions(){
 
 function getAllPetitionsByCategory($categoryId){
 	$connect=connection();
-	$getAllPetitionByCat="SELECT * FROM Petitions WHERE categoryId=$categoryId";
+	$getAllPetitionByCat="SELECT * FROM Petitions WHERE categoryId='".$categoryId."'";
 	$res=mysqli_query($connect,$getAllPetitionByCat);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);
 	mysqli_close($connect);
 	return $petitions;
 }
-
-function getPetition($id){
+function getAllPetitionsByUser($userId){
 	$connect=connection();
-	$getPetition="SELECT * FROM Petitions WHERE id=$id";
+	$getAllPetitionByUser="SELECT * FROM Petitions WHERE userId='".$userId."'";
+	$res=mysqli_query($connect,$getAllPetitionByUser);
+	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
+	mysqli_free_result($res);
+	mysqli_close($connect);
+	return $petitions;
+}
+
+function getPetitionById($id){
+	$connect=connection();
+	$getPetition="SELECT * FROM Petitions WHERE id='".$id."'";
 	$res=mysqli_query($connect,$getPetition);
 	$petition=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
@@ -139,7 +148,6 @@ function addSignature($infos){
 	$connect=connection();
 	$addSignature="INSERT INTO Signatures (petitionId,userId) VALUES ('$infos[petitionId]','$infos[userId]')";
 	mysqli_query($connect,$addSignature);
-	echo "<p>".mysqli_error($connect)."</p>";
 	mysqli_close($connect);
 }
 
@@ -157,13 +165,13 @@ function sign_in($email,$password){
 	$connect=connection();
 	$userExist=getUserByMail($email);
 	if(is_null($userExist)){
-		if(isset($_POST[startpetitionfail])){
+		if(isset($_POST['startpetitionfail'])){
 			header("Location:index.php?signin&msg=errorConnection&startpetitionfail");
 		}else{
 			header("Location:index.php?signin&msg=errorConnection");
 		}
 	}
-	if($userExist['password']==sha1($password+$email)){
+	if($userExist['password']==sha1($password.$email)){
 		$_SESSION['id']=$userExist['id'];
 		$_SESSION['name']=$userExist['name'];
 		$_SESSION['surname']=$userExist['surname'];
@@ -175,7 +183,7 @@ function sign_in($email,$password){
 			header('Location:profile.php');
 		}
 	}else{
-		if(isset($_POST[startpetitionfail])){
+		if(isset($_POST['startpetitionfail'])){
 			header("Location:index.php?signin&msg=errorConnection&startpetitionfail");
 		}else{
 			header("Location:index.php?signin&msg=errorConnection");
@@ -185,7 +193,6 @@ function sign_in($email,$password){
 }
 
 function sign_up($name,$surname,$pseudo,$email,$password,$password2){
-	$connect=connection();
 	$userExist=getUserByMail($email);
 	$pseudoExist=getUserByPseudo($pseudo);
 	$regEx="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/";
@@ -219,8 +226,7 @@ function sign_up($name,$surname,$pseudo,$email,$password,$password2){
 								if($pseudoExist!=NULL){
 									header('Location: index.php?signup&errorPseudoUsed');
 								}else{
-									$insert="INSERT INTO Users (name,surname,pseudo,mail,password) VALUES ('".$name."','".$surname."','".$pseudo."','".$email."','".sha1($password+$email)."')";
-									mysqli_query($connect,$insert);
+									addUser($name,$surname,$pseudo,$email,sha1($password.$email));
 									header('Location:index.php?signin');
 								}
 							}
@@ -230,7 +236,6 @@ function sign_up($name,$surname,$pseudo,$email,$password,$password2){
 			}
 		}
 	}
-	mysqli_close($connect);
 }
 
 function getNbPetitionsSigned($userId){

@@ -155,3 +155,88 @@
   margin-left: -15px;
   margin-top: -15px;
 }
+
+.createPetition {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+text-align: center;
+}
+
+.Article{
+  padding:20px;
+  margin:20px 0;
+  border:1px solid #FFC376;
+  border-left-width:5px;
+  border-radius:3px;
+  width: 690px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Article .titre {
+  float: left;
+}
+.Article .author{
+  margin-left: 450px;
+}
+.Article .numberSign{
+  float: left;
+}
+
+.Article .sign {
+  margin-left: 550px;
+}
+
+.etage {
+  margin-top: 5px;
+  margin-bottom: 8px;
+}
+
+.AllArticle{
+  padding:20px;
+  margin:20px 0;
+  border:1px solid #FFC376;
+  border-left-width:5px;
+  border-radius:3px;
+  width: 690px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.AllArticle .Title {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+
+}
+.AllArticle .group {
+  margin-bottom: 25px;
+  
+
+
+}
+.AllArticle .group .DateandAuthor{
+  float: left;
+  font-weight: bold;
+}
+.AllArticle .group .Categorie {
+  margin-left: 530px;
+}
+.AllArticle .Description {
+
+  margin-bottom: 25px;
+}
+
+
+.AllArticle #buttonsign {
+
+  margin-top: 50px;
+  margin-left: 70px;
+
+  width: 550px;
+
+
+}
+  

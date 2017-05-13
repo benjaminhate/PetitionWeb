@@ -15,7 +15,30 @@
     			header('Location:index.php');
     		}
     	}
-    	$id=$_SESSION['id'];
+      $id=$_SESSION['id'];
+      if(isset($_POST['createPetition'])){
+        if(!empty($_POST['title']) && !empty($_POST['description']) && !empty($_POST['category'])){
+          $infos = array('title' => $_POST['title'], 'description' => $_POST['description'], 'categoryId' => $_POST['category'], 'userId' => $id);
+          if(!empty($_POST['dayEnd']) || !empty($_POST['monthEnd']) || !empty($_POST['yearEnd'])){
+            $checkDate=mktime(0,0,0,intval($_POST['dayEnd']),intval($_POST['monthEnd']),intval($_POST['yearEnd']));
+            if(empty($_POST['dayEnd']) || empty($_POST['monthEnd']) || empty($_POST['yearEnd'])){
+              header('Location:home.php?startpetition&errorDate');
+            }else{
+              $infos['dateEnd']=$checkDate;
+            }
+          }else{
+            $infos['dateEnd']='NULL';
+          }
+          if(!empty($_POST['expSign'])){
+            $infos['expSign']=$_POST['expSign'];
+          }else{
+            $infos['expSign']='NULL';
+          }
+          addPetition($infos);
+        }else{
+          header('Location:home.php?startpetition&errorNullValue');
+        }
+      }
     ?>
     <title><?php echo $GLOBALS['siteName']; ?></title>
 </head>
@@ -28,28 +51,69 @@
       <?php
       	if(isset($_GET['startpetition'])){
       ?>
-        <div class="createPetition">
+        <?php
+          if(isset($_GET['errorNullValue'])){
+        ?>
+        <div class="alert alert-danger">Un ou plusieurs champs sont vides.</div>
+        <?php
+          }
+        ?>
+
+
+
+
+                <div class="createPetition">
+
             <form action="home.php" method="post">
-              <input type="text" name="title" placeholder="Title"> <br>
-              <textarea name="description" placeholder="Description" cols="50" rows="10"></textarea> <br>
-              <input type="text" name="recipient" placeholder="Recipient"> <br>
-              <input type="date" name="dateEnd" placeholder="End date"> <br>
-              <input type="number" name="expSign" placeholder="Signs expected"> <br>
-              <select name="category">
-              	<?php
-              		$categories=getAllCategories();
-              		foreach ($categories as $key => $value) {
-              	?>
-              	<option value="<?php echo $value['name'] ?>"><?php echo $value['name']; ?></option>
-              	<?php
-              		}
-              	?>
-              </select> <br>
-              <input type="submit" name="createPetition" value="Create">
+
+              <div class="form-group">
+                <label for="title">Title :</label>
+                <input type="text" name="title" class="form-control" placeholder="Title">
+              </div>
+              <div class="form-group">
+                <label for="description">Description :</label>
+                <textarea name="description" placeholder="Description" cols="50" rows="10" class="form-control"></textarea>
+              </div>
+              <div class="form-group">
+              <label for="date"> End Date : </label>
+              <br>
+              <input type="date" name="dayEnd" placeholder="End day"> /
+              <input type="date" name="monthEnd" placeholder="End month"> /
+              <input type="date" name="yearEnd" placeholder="End year"> <br>
+              </div>
+
+
+              <div class="form-group">
+                <label for="number"> Number : </label>
+                <input type="number" name="expSign" placeholder="Signs expected" class="form-control">
+              </div>
+              <div class="form-group">
+              <label for="category"> Categories : </label>
+              <br>
+                <select name="category">
+                  <?php
+                    $categories=getAllCategories();
+                    foreach ($categories as $key => $category) {
+                  ?>
+                  
+                  <br>
+                  <option value="<?php echo $category['id'] ?>"><?php echo $category['name']; ?></option>
+                  <?php
+                    }
+                  ?>
+
+                </select>
+                </div>
+                 <br> <br>
+              <div class="click">
+                <button name="createPetition" id="postpetition" class="btn btn-lg btn-primary btn-block" type="submit">Submit Petition</button>
+              </div>
+
             </form>
           </div>
           <?php } ?>
       </div>
+
       <?php
         include('footer.php');
       ?>
