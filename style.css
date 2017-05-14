@@ -106,17 +106,14 @@
 .footer{
   width: 950px;
 }
-
 .footer .copyright{
   float: left;
   font-size: 12px;
 }
-
 .footer .right{
   display: inline-block;
   float:right;
 }
-
 .footer .right .name{
   float: left;
   margin-right: 5px;
@@ -140,7 +137,6 @@
 .form-control{
   margin-bottom: 5px;
 }
-
 .form-control.fail, .errorUserExist, .errorPseudoUsed{
   border: 1px solid red;
 }
@@ -174,24 +170,31 @@ text-align: center;
   margin-left: auto;
   margin-right: auto;
 }
-
+.Article .etage{
+  margin-top: 5px;
+  margin-bottom: 8px;
+  display: inline-block;
+  width: 100%;
+}
+.Article .etage > *{
+  display: inline-block;
+}
 .Article .titre {
   float: left;
 }
 .Article .author{
-  margin-left: 450px;
+  margin-top: 10px;
+  float: right;
 }
 .Article .numberSign{
+  margin-top: 5px;
   float: left;
 }
-
 .Article .sign {
-  margin-left: 550px;
+  float: right;
 }
-
-.etage {
-  margin-top: 5px;
-  margin-bottom: 8px;
+.Article .shortDescription{
+  margin-bottom: 20px;
 }
 
 .AllArticle{
@@ -213,9 +216,6 @@ text-align: center;
 }
 .AllArticle .group {
   margin-bottom: 25px;
-  
-
-
 }
 .AllArticle .group .DateandAuthor{
   float: left;
@@ -225,18 +225,11 @@ text-align: center;
   margin-left: 530px;
 }
 .AllArticle .Description {
-
   margin-bottom: 25px;
 }
-
-
 .AllArticle #buttonsign {
-
   margin-top: 50px;
   margin-left: 70px;
-
   width: 550px;
-
-
 }
   

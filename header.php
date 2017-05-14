@@ -100,7 +100,8 @@
     <div class="search">
       <form class="navbar-form search" action="index.php" method="get">
         <div class="input-group add-on">
-          <input class="form-control" placeholder="Recherche" name="search" type="search">
+          <input type="hidden" name="petition" value="all">
+          <input class="form-control" placeholder="Recherche" name="search" type="search" style="border-radius: 4px 0px 0px 4px;">
           <div class="input-group-btn">
             <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
           </div>

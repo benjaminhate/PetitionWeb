@@ -17,12 +17,13 @@
     	}
       $id=$_SESSION['id'];
       if(isset($_POST['createPetition'])){
+        $redirectDate=false;
         if(!empty($_POST['title']) && !empty($_POST['description']) && !empty($_POST['category'])){
           $infos = array('title' => $_POST['title'], 'description' => $_POST['description'], 'categoryId' => $_POST['category'], 'userId' => $id);
           if(!empty($_POST['dayEnd']) || !empty($_POST['monthEnd']) || !empty($_POST['yearEnd'])){
             $checkDate=mktime(0,0,0,intval($_POST['dayEnd']),intval($_POST['monthEnd']),intval($_POST['yearEnd']));
             if(empty($_POST['dayEnd']) || empty($_POST['monthEnd']) || empty($_POST['yearEnd'])){
-              header('Location:home.php?startpetition&errorDate');
+              $redirectDate=true;
             }else{
               $infos['dateEnd']=$checkDate;
             }
@@ -34,7 +35,11 @@
           }else{
             $infos['expSign']='NULL';
           }
-          addPetition($infos);
+          if($redirectDate){
+            header('Location:home.php?startpetition&errorDate');
+          }else{
+            addPetition($infos);
+          }
         }else{
           header('Location:home.php?startpetition&errorNullValue');
         }
@@ -58,14 +63,8 @@
         <?php
           }
         ?>
-
-
-
-
-                <div class="createPetition">
-
+          <div class="createPetition">
             <form action="home.php" method="post">
-
               <div class="form-group">
                 <label for="title">Title :</label>
                 <input type="text" name="title" class="form-control" placeholder="Title">
@@ -81,8 +80,6 @@
               <input type="date" name="monthEnd" placeholder="End month"> /
               <input type="date" name="yearEnd" placeholder="End year"> <br>
               </div>
-
-
               <div class="form-group">
                 <label for="number"> Number : </label>
                 <input type="number" name="expSign" placeholder="Signs expected" class="form-control">
@@ -95,25 +92,20 @@
                     $categories=getAllCategories();
                     foreach ($categories as $key => $category) {
                   ?>
-                  
-                  <br>
                   <option value="<?php echo $category['id'] ?>"><?php echo $category['name']; ?></option>
                   <?php
                     }
                   ?>
-
                 </select>
                 </div>
-                 <br> <br>
+                 <br>
               <div class="click">
                 <button name="createPetition" id="postpetition" class="btn btn-lg btn-primary btn-block" type="submit">Submit Petition</button>
               </div>
-
             </form>
           </div>
           <?php } ?>
       </div>
-
       <?php
         include('footer.php');
       ?>

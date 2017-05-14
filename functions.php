@@ -99,15 +99,17 @@ function getUserByPseudo($pseudo){
 
 function addPetition($infos){
 	$connect=connection();
-	$addPetition="INSERT INTO Petitions (title,categoryId,nbSign,expSign,userId,description,dateEnd) VALUES ('".$infos['title']."','".$infos['categoryId']."',0,".$infos['expSign'].",'".$infos['userId']."','".$infos['description']."',".$infos['dateEnd'].")";
+	$title=mysqli_real_escape_string($connect,$infos['title']);
+	$description=mysqli_real_escape_string($connect,nl2br($infos['description']));
+	$addPetition="INSERT INTO Petitions (title,categoryId,nbSign,expSign,userId,description,dateEnd) VALUES ('".$title."','".$infos['categoryId']."',0,".$infos['expSign'].",'".$infos['userId']."','".$description."',FROM_UNIXTIME($infos[dateEnd]))";
 	mysqli_query($connect,$addPetition);
-	echo "<p>".mysqli_error($connect)."</p>";
 	mysqli_close($connect);
+	header('Location:index.php?petition=all');
 }
 
 function getAllPetitions(){
 	$connect=connection();
-	$getAllPetition="SELECT * FROM Petitions";
+	$getAllPetition="SELECT * FROM Petitions ORDER BY dateBegin DESC";
 	$res=mysqli_query($connect,$getAllPetition);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);
@@ -117,7 +119,7 @@ function getAllPetitions(){
 
 function getAllPetitionsByCategory($categoryId){
 	$connect=connection();
-	$getAllPetitionByCat="SELECT * FROM Petitions WHERE categoryId='".$categoryId."'";
+	$getAllPetitionByCat="SELECT * FROM Petitions WHERE categoryId='".$categoryId."' ORDER BY dateBegin DESC";
 	$res=mysqli_query($connect,$getAllPetitionByCat);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);
@@ -126,7 +128,7 @@ function getAllPetitionsByCategory($categoryId){
 }
 function getAllPetitionsByUser($userId){
 	$connect=connection();
-	$getAllPetitionByUser="SELECT * FROM Petitions WHERE userId='".$userId."'";
+	$getAllPetitionByUser="SELECT * FROM Petitions WHERE userId='".$userId."' ORDER BY dateBegin DESC";
 	$res=mysqli_query($connect,$getAllPetitionByUser);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);
@@ -246,6 +248,18 @@ function getNbPetitionsSigned($userId){
 	mysqli_free_result($res);
 	mysqli_close($connect);
 	return $nbSigned;
+}
+
+function searchInPetitions($search){
+	$petitions=getAllPetitions();
+	$searchPetition = array();
+	foreach ($petitions as $key => $petition) {
+		$user=getUserById($petition['userId']);
+		if(strpos(strtolower($petition['description']),strtolower($search))!==false || strpos(strtolower($petition['title']),strtolower($search))!==false || strpos(strtolower($user['pseudo']),strtolower($search))!==false){
+			array_push($searchPetition, $petition);
+		}
+	}
+	return $searchPetition;
 }
 
 ?>

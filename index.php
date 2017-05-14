@@ -204,6 +204,9 @@ if(isset($_GET['petition'])){
     if(isset($_GET['user'])){
       $petitions=getAllPetitionsByUser($_GET['user']);
     }
+    if(isset($_GET['search'])){
+      $petitions=searchInPetitions($_GET['search']);
+    }
     foreach ($petitions as $key => $petition) {
       $user=getUserById($petition['userId']);
       ?>
@@ -265,25 +268,20 @@ if(isset($_GET['petition'])){
     $category=getCategoryById($petition['categoryId']);
     ?>
     <div class="AllArticle">
-
-
-          <div class="Title">
-              <h1><?php echo $petition['title'] ?></h1>
+        <div class="Title">
+          <h1><?php echo $petition['title'] ?></h1>
+        </div>
+        <div class="group">
+          <div class="DateandAuthor">
+            <p class="blog-post-meta"> <?php echo date("d/m/Y",strtotime($petition['dateBegin'])) ?> by <a href="index.php?petition=all&user=<?php echo $user['id']?>"><?php echo $user['pseudo']; ?></a></p>
           </div>
-          <div class="group">
-            <div class="DateandAuthor">
-              <p class="blog-post-meta"> <?php echo date("d/m/Y",strtotime($petition['dateBegin'])) ?> by <a href="index.php?petition=all&user=<?php echo $user['id']?>"><?php echo $user['pseudo']; ?></a></p>
-            </div>
-            <div class="Categorie">
-              <p> <?php echo $category['name'] ?> </p>
+          <div class="Categorie">
+            <p> <?php echo $category['name'] ?> </p>
           </div>
         </div>
-
         <div class="Description">
-        <?php echo $petition['description'] ?>
-          
+          <?php echo $petition['description'] ?>
         </div>
-
         <div class="progress">
           <?php
           if(empty($petition['expSign'])){
@@ -303,44 +301,18 @@ if(isset($_GET['petition'])){
             }
           }
           ?>
-      </div>
-
+        </div>
         <div class="numberSign">
           <i class="fa fa-users" aria-hidden="true"></i>
            <?php echo $petition['nbSign'] ?> signatures
-
         </div>
         <div class="Sign">
           <button type="button" class="btn btn-warning" id="buttonsign">Signe-Moi</button>
         </div>
-
       </div>
-
-
-
-
-
     <?php
-
-
-
-
-
-
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
          ?>
         </div>
       <?php
