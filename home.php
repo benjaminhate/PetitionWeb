@@ -56,14 +56,21 @@
       <?php
       	if(isset($_GET['startpetition'])){
       ?>
-        <?php
-          if(isset($_GET['errorNullValue'])){
-        ?>
-        <div class="alert alert-danger">Un ou plusieurs champs sont vides.</div>
-        <?php
-          }
-        ?>
           <div class="createPetition">
+          <?php
+          if(isset($_GET['errorNullValue'])){
+          ?>
+          <div class="alert alert-danger">Un ou plusieurs champs sont vides.</div>
+          <?php
+            }
+          ?>
+          <?php
+            if(isset($_GET['errorDate'])){
+          ?>
+          <div class="alert alert-danger">La date est incorrecte ou incomplète.</div>
+          <?php
+            }
+          ?>
             <form action="home.php" method="post">
               <div class="form-group">
                 <label for="title">Title :</label>
@@ -87,7 +94,7 @@
               <div class="form-group">
               <label for="category"> Categories : </label>
               <br>
-                <select name="category">
+                <select name="category" class="form-control">
                   <?php
                     $categories=getAllCategories();
                     foreach ($categories as $key => $category) {

@@ -138,7 +138,7 @@ function getAllPetitionsByUser($userId){
 
 function getPetitionById($id){
 	$connect=connection();
-	$getPetition="SELECT * FROM Petitions WHERE id='".$id."'";
+	$getPetition="SELECT * FROM Petitions WHERE id=$id";
 	$res=mysqli_query($connect,$getPetition);
 	$petition=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
