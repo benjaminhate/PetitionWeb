@@ -32,7 +32,11 @@
         include('header.php');
       ?>
       <div class="body">
+<<<<<<< HEAD
       <?php
+=======
+      <?php 
+>>>>>>> 42aadd41a2de3c0ad43ba83a2b24bd5cee9ee79c
       if(empty($_GET)){
       ?>
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -207,6 +211,7 @@ if(isset($_GET['petition'])){
     if(isset($_GET['search'])){
       $petitions=searchInPetitions($_GET['search']);
     }
+<<<<<<< HEAD
     if(isset($_GET['recent'])){
       #$petitions=getAllPetitionsRecent();
     }
@@ -244,6 +249,92 @@ if(isset($_GET['petition'])){
               echo '...';
             }
            ?>
+=======
+    if(empty($petitions)){
+      ?>
+      <div class="petitionEmpty">Aucune pétition trouvée.</div>
+      <?php
+    }else{
+      foreach ($petitions as $key => $petition) {
+        $user=getUserById($petition['userId']);
+        ?>
+        <div class="Article">
+          <div class="etage">
+            <div class="titre">
+            <a href="index.php?petition= <?php echo $petition['id'] ?>"><h4><?php echo $petition['title'] ?></h4></a>
+            </div>
+            <div class="author">
+              <p class="blog-post-meta"> <?php echo date("d/m/Y",strtotime($petition['dateBegin'])) ?> by <a href="index.php?petition=all&user=<?php echo $user['id']?>"><?php echo $user['pseudo']; ?></a></p>
+            </div>
+          </div>
+          <div class="shortDescription">
+            <?php
+              if(strlen($petition['description'])<150){
+                echo $petition['description'];
+              }else{
+                echo substr($petition['description'],0,150);
+                echo '...';
+              }
+             ?>
+          </div>
+          <div class="progress">
+            <?php
+            if(empty($petition['expSign'])){
+              ?>
+              <div class="progress-bar progress-bar-striped" role="progressbar"  style="width: 100%;background-color:grey;" ><span class="sr-only"></span></div>
+              <?php
+            }else {
+              if($petition['nbSign']<$petition['expSign']){
+                $percentValue=intval($petition['nbSign'])/intval($petition['expSign'])*100;
+                ?>
+                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="<?php echo $petition['nbSign']?>" aria-valuemin="0" aria-valuemax="<?php echo $petition['expSign']?>" style="width: <?php echo $percentValue?>%"><span class="sr-only"></span></div>
+                <?php
+              }else{
+                ?>
+                <div class="progress-bar progress-bar-success" role="progressbar" style="width: 100%"><span class="sr-only"></span></div>
+                <?php
+              }
+            }
+            ?>
+        </div>
+        <div class="etage">
+          <div class="numberSign">
+            <i class="fa fa-users" aria-hidden="true"></i>
+            <?php echo $petition['nbSign'] ?> signatures
+          </div>
+          <div class="sign">
+            <button type="button" class="btn btn-warning">Signe-Moi</button>
+          </div>
+        </div>
+        </div>
+        <?php
+      }
+    }
+  }else {
+    $petition=getPetitionById($_GET['petition']);
+    if(empty($petition)){
+      ?>
+      <div class="petitionEmpty">Aucune pétition trouvée.</div>
+      <?php
+    }else{
+      $user=getUserById($petition['userId']);
+      $category=getCategoryById($petition['categoryId']);
+      ?>
+      <div class="AllArticle">
+        <div class="Title">
+          <h1><?php echo $petition['title'] ?></h1>
+        </div>
+        <div class="group">
+          <div class="DateandAuthor">
+            <p class="blog-post-meta"> <?php echo date("d/m/Y",strtotime($petition['dateBegin'])) ?> by <a href="index.php?petition=all&user=<?php echo $user['id']?>"><?php echo $user['pseudo']; ?></a></p>
+          </div>
+          <div class="Categorie">
+            <?php echo $category['name'] ?>
+          </div>
+        </div>
+        <div class="Description">
+          <?php echo $petition['description'] ?>
+>>>>>>> 42aadd41a2de3c0ad43ba83a2b24bd5cee9ee79c
         </div>
         <div class="progress">
           <?php
@@ -264,6 +355,7 @@ if(isset($_GET['petition'])){
             }
           }
           ?>
+<<<<<<< HEAD
       </div>
       <div class="etage">
         <div class="numberSign">
@@ -322,10 +414,15 @@ if(isset($_GET['petition'])){
             }
             ?>
           </div>
+=======
+        </div>
+        <div class="group">
+>>>>>>> 42aadd41a2de3c0ad43ba83a2b24bd5cee9ee79c
           <div class="numberSign">
             <i class="fa fa-users" aria-hidden="true"></i>
              <?php echo $petition['nbSign'] ?> signatures
           </div>
+<<<<<<< HEAD
           <div class="Sign">
             <button type="button" class="btn btn-warning" id="buttonsign">Signe-Moi</button>
           </div>
@@ -336,6 +433,25 @@ if(isset($_GET['petition'])){
 
 
 
+=======
+          <div class="dateEnd">
+            <?php
+            if(!empty($petition['dateEnd'])){
+              echo "Date de fin : ";
+              echo date("d/m/Y",strtotime($petition['dateEnd']));
+            }
+            ?>
+          </div>
+        </div>
+        <div class="Sign">
+          <button type="button" class="btn btn-warning" id="buttonsign">Signe-Moi</button>
+        </div>
+      </div>
+      <?php
+    }
+  }
+}
+>>>>>>> 42aadd41a2de3c0ad43ba83a2b24bd5cee9ee79c
          ?>
         </div>
       <?php

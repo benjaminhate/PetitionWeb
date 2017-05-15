@@ -126,6 +126,7 @@ function getAllPetitionsByCategory($categoryId){
 	mysqli_close($connect);
 	return $petitions;
 }
+
 function getAllPetitionssuccess(){
   $connect=connection();
   $getAllPetitionSuccess="SELECT * FROM Petitions WHERE nbSign > expSign ORDER BY dateBegin DESC";
