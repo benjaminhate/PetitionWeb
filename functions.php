@@ -136,18 +136,38 @@ function getAllPetitionssuccess(){
 	mysqli_close($connect);
 	return $petitions;
 }
+
 function getAllPetitionsfinish(){
-  $connect=connection();
-  $getAllPetitionsfinish="SELECT * FROM Petitions WHERE dateEnd < time() ORDER BY dateBegin DESC";
-  $res=mysqli_query($connect,$getAllPetitionfinish);
+	$connect=connection();
+	$getAllPetitionfinish="SELECT * FROM Petitions WHERE DATE(dateEnd) < DATE(NOW()) ORDER BY dateBegin DESC";
+	$res=mysqli_query($connect,$getAllPetitionfinish);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);
 	mysqli_close($connect);
 	return $petitions;
-
 }
-function GetPetitionAlea(){
 
+function getAllPetitionsRecent(){
+	$connect=connection();
+	$getAllPetitionrecent="SELECT * FROM Petitions WHERE DATE(dateBegin) BETWEEN DATE(ADDDATE(NOW(),-7)) AND DATE(NOW()) ORDER BY dateBegin DESC";
+	$res=mysqli_query($connect,$getAllPetitionrecent);
+	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
+	mysqli_free_result($res);
+	mysqli_close($connect);
+	return $petitions;
+}
+
+function getAllPetitionsUrg(){
+	$connect=connection();
+	$getAllPetitionurg="SELECT * FROM Petitions WHERE DATE(dateEnd) BETWEEN DATE(NOW()) AND DATE(ADDDATE(NOW(),+7)) ORDER BY dateBegin DESC";
+	$res=mysqli_query($connect,$getAllPetitionurg);
+	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
+	mysqli_free_result($res);
+	mysqli_close($connect);
+	return $petitions;
+}
+
+function GetPetitionAlea(){
   	$connect=connection();
   	$getPetAlea="SELECT * FROM Petitions ORDER BY RAND() LIMIT 0,1";
   	$res=mysqli_query($connect,$getPetAlea);
@@ -156,9 +176,6 @@ function GetPetitionAlea(){
   	mysqli_close($connect);
   	return $petitions;
   }
-
-
-
 
 function getAllPetitionsByUser($userId){
 	$connect=connection();

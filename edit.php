@@ -11,7 +11,7 @@ $userName=$_POST['name'];
 $userSurname=$_POST['surname'];
 $userPseudo=$_POST['pseudo'];
 $userMail=$_POST['email'];
-$userPass=sha1($_POST['password']+$_POST['email']);
+$userPass=sha1($_POST['password'].$_POST['email']);
 
 $infos = array('id' => $userId, 'name' => $userName, 'surname' => $userSurname, 'pseudo' => $userPseudo, 'mail' => $userMail);
 echo empty($_POST['password']);

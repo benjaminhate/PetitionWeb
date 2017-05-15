@@ -164,9 +164,6 @@
   margin-left: auto;
   margin-right: auto;
   display: block;
-<<<<<<< HEAD
-text-align: center;
-=======
   text-align: center;
 }
 .createPetition .alert{
@@ -184,7 +181,6 @@ text-align: center;
   padding-top: 65px;
   margin-left: auto;
   margin-right: auto;
->>>>>>> 42aadd41a2de3c0ad43ba83a2b24bd5cee9ee79c
 }
 
 .Article{
@@ -242,10 +238,6 @@ text-align: center;
 
 }
 .AllArticle .group {
-<<<<<<< HEAD
-  margin-bottom: 25px;
-}
-=======
   width: 100%;
   height: 20px;
   margin-bottom: 25px;
@@ -253,20 +245,15 @@ text-align: center;
 .AllArticle .group > *{
   display: inline-block;
 }
->>>>>>> 42aadd41a2de3c0ad43ba83a2b24bd5cee9ee79c
 .AllArticle .group .DateandAuthor{
   float: left;
   font-weight: bold;
 }
 .AllArticle .group .Categorie {
-<<<<<<< HEAD
-  margin-left: 530px;
-=======
   float: right;
 }
 .AllArticle .group .dateEnd{
   float: right;
->>>>>>> 42aadd41a2de3c0ad43ba83a2b24bd5cee9ee79c
 }
 .AllArticle .Description {
   margin-bottom: 25px;
@@ -276,7 +263,3 @@ text-align: center;
   margin-left: 70px;
   width: 550px;
 }
-<<<<<<< HEAD
-=======
-  
->>>>>>> 42aadd41a2de3c0ad43ba83a2b24bd5cee9ee79c

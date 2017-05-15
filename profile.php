@@ -29,39 +29,30 @@
       	if(isset($_GET['edit'])){
       ?>
 			<div class=profile>
-
-
       	<form action="edit.php" method="post">
 					<div class="form-group">
 						<label for="name">Name :</label>
 						<input type="text" name="name" value="<?php echo $name ?>" placeholder="name"> <br>
 					</div>
-
 					<div class="form-group">
 						<label for="surname">Surname :</label>
 						<input type="text" name="surname" value="<?php echo $surname ?>" placeholder="surname"> <br>
 					</div>
-
 					<div class="form-group">
 						<label for="pseudo">Pseudo :</label>
 						<input type="text" name="pseudo" value="<?php echo $pseudo ?>" placeholder="pseudo"> <br>
 					</div>
-
 					<div class="form-group">
 						<label for="Email">Email :</label>
 						<input type="text" name="email" value="<?php echo $email ?>" placeholder="email"> <br>
 					</div>
-
 					<div class="form-group">
 						<label for="password">Password :</label>
 						<input type="password" name="password" placeholder="change password"> <br>
 					</div>
-
 					<div class="form-group">
 						<input type="submit" value="Edit">
-						
 					</div>
-
       	</form>
 			</div>
       <?php }else{ ?>
