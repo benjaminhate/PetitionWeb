@@ -94,16 +94,43 @@
   margin-top: 2px;
   font-size: 25px;
 }
-.maininscription .fiche{
-  width: 450px;
+
+.Article{
+  padding:20px;
+  margin:20px 0;
+  border:1px solid #FFC376;
+  border-left-width:5px;
+  border-radius:3px;
+  width: 690px;
   margin-left: auto;
   margin-right: auto;
+
 }
-.maininscription .click {
-  width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+
+.Article .titre {
+  float: left;
 }
+.Article .author{
+  margin-left: 450px;
+}
+.Article .numberSign{
+  float: left;
+}
+
+.Article .sign {
+  margin-left: 550px;
+}
+
+.etage {
+  margin-top: 5px;
+  margin-bottom: 8px;
+}
+
+
+
+
+
+
 .footer{
   width: 950px;
 }

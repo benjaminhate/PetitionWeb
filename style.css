@@ -4,6 +4,8 @@
 
 .header{
   margin-top: 5px;
+  background-image: url(/background.jpg);
+
 }
 
 .header > * > *,.footer > *,.header .top-bar .top-right-bar > *,.header .main{
@@ -71,8 +73,12 @@
   max-width: 600px;
 }
 
-.navbar-inverse .navbar-nav > li > a{
+.menu .navbar-inverse .navbar-nav > li > a{
   color: #efefef;
+}
+
+.menu .navbar-inverse .navbar-nav > .open > a{
+  background-color: #5f4015;
 }
 
 .navigation{
@@ -85,30 +91,31 @@
 }
 
 .search{
-  margin-top: 1px;
-  margin-right: 5px;
   float:right;
 }
 
-.search button{
-  margin-top: 2px;
-  font-size: 25px;
+.fiche{
+  width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.click {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .footer{
   width: 950px;
 }
-
 .footer .copyright{
   float: left;
   font-size: 12px;
 }
-
 .footer .right{
   display: inline-block;
   float:right;
 }
-
 .footer .right .name{
   float: left;
   margin-right: 5px;
@@ -123,4 +130,107 @@
 .startpetitionfail{
   border: 0px;
   resize: none;
+}
+
+.dropdown a:hover{
+  color:#EEA236;
+}
+
+.form-control{
+  margin-bottom: 5px;
+}
+.form-control.fail, .errorUserExist, .errorPseudoUsed{
+  border: 1px solid red;
+}
+.form-control.success{
+  border: 1px solid green;
+}
+
+.carousel-control .fa{
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  margin-left: -15px;
+  margin-top: -15px;
+}
+
+.createPetition {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+text-align: center;
+}
+
+.Article{
+  padding:20px;
+  margin:20px 0;
+  border:1px solid #FFC376;
+  border-left-width:5px;
+  border-radius:3px;
+  width: 690px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.Article .etage{
+  margin-top: 5px;
+  margin-bottom: 8px;
+  display: inline-block;
+  width: 100%;
+}
+.Article .etage > *{
+  display: inline-block;
+}
+.Article .titre {
+  float: left;
+}
+.Article .author{
+  margin-top: 10px;
+  float: right;
+}
+.Article .numberSign{
+  margin-top: 5px;
+  float: left;
+}
+.Article .sign {
+  float: right;
+}
+.Article .shortDescription{
+  margin-bottom: 20px;
+}
+
+.AllArticle{
+  padding:20px;
+  margin:20px 0;
+  border:1px solid #FFC376;
+  border-left-width:5px;
+  border-radius:3px;
+  width: 690px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.AllArticle .Title {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+
+}
+.AllArticle .group {
+  margin-bottom: 25px;
+}
+.AllArticle .group .DateandAuthor{
+  float: left;
+  font-weight: bold;
+}
+.AllArticle .group .Categorie {
+  margin-left: 530px;
+}
+.AllArticle .Description {
+  margin-bottom: 25px;
+}
+.AllArticle #buttonsign {
+  margin-top: 50px;
+  margin-left: 70px;
+  width: 550px;
 }

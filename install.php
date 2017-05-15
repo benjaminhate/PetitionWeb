@@ -2,18 +2,18 @@
 
 include("functions.php");
 
+$createDb="CREATE DATABASE IF NOT EXISTS ".$GLOBALS['dbName'];
+
 $createPetitions="CREATE TABLE IF NOT EXISTS Petitions (
   id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(255) NOT NULL,
   categoryId INT NOT NULL,
   nbSign INT NOT NULL,
   expSign INT DEFAULT NULL,
-  author VARCHAR(255),
   userId INT NOT NULL,
   description VARCHAR(1000),
   dateBegin TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   dateEnd TIMESTAMP,
-  recipient VARCHAR(255),
   PRIMARY KEY (id),
   FOREIGN KEY (categoryId) REFERENCES Categories(id),
   FOREIGN KEY (userId) REFERENCES Users(id)
@@ -38,8 +38,8 @@ $createUsers="CREATE TABLE IF NOT EXISTS Users (
 $createSignatures="CREATE TABLE IF NOT EXISTS Signatures (
   petitionId INT NOT NULL,
   userId INT NOT NULL,
-  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  number INT NOT NULL,
+  dateSign TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  numberth INT NOT NULL,
   PRIMARY KEY (petitionId,userId),
   FOREIGN KEY (petitionId) REFERENCES Petitions(id),
   FOREIGN KEY (userId) REFERENCES Users(id)
@@ -64,5 +64,7 @@ echo mysqli_info($connect);
 echo mysqli_error($connect);
 
 mysqli_close($connect);
+
+echo "<p>Installation complete</p>";
 
 ?>

@@ -3,14 +3,14 @@
   <div class="top-bar">
     <div class="number">
       <i class="fa fa-users" aria-hidden="true"></i>
-      Nombres de personnes inscrites : <?php echo $GLOBALS['nbSubs'] ?>
+      Nombres de personnes inscrites : <?php echo getNbSubscribers()['count(*)']; ?>
     </div>
     <div class="top-right-bar">
       <div class="inscription">
       <?php
         if(isset($_SESSION['id'])){
       ?>
-        <a href="profile.php" class="alert"><?php echo $_SESSION['pseudo'] ?></a>
+        <a href="profile.php" class="btn btn-primary"><?php echo $_SESSION['pseudo'] ?></a>
       <?php
         }else{
       ?>
@@ -70,7 +70,13 @@
                         </a>
                         <ul class="dropdown-menu">
                           <li><a href="index.php?petition=all">Toutes les pétitions</a></li>
+                          <li><a href="index.php?petition=all&alea">Pétition Aléatoire</a></li>
+                          <li><a href="index.php?petition=all&recent">Petitions récentes</a></li>
+                          <li><a href="index.php?petition=all&urg">Petitions urgentes</a></li>
+                          <li><a href="index.php?petition=all&finish">Petitions finies</a></li>
+                          <li><a href="index.php?petition=all&success">Petitions sucess</a></li>
                         </ul>
+
                     </li>
                     <li>
                         <a class="dropdown-toggle" aria-expanded="false" aria-haspopup="true"role="button"data-toggle="dropdown" href="#">
@@ -81,7 +87,7 @@
                             $categories=getAllCategories();
                             foreach ($categories as $key => $value) {
                           ?>
-                          <li><a href="index.php?category=<?php echo $value['id']; ?>"><?php echo $value['name']; ?></a></li>
+                          <li><a href="index.php?petition=all&category=<?php echo $value['id']; ?>"><?php echo $value['name']; ?></a></li>
                           <?php
                             }
                           ?>
@@ -98,9 +104,14 @@
 
     </div>
     <div class="search">
-      <form class="search" action="index.php" method="get">
-        <input type="search" name="search" placeholder="Rechercher des pétitions">
-        <button type="submit"><i class="fa fa-search"></i></button>
+      <form class="navbar-form search" action="index.php" method="get">
+        <div class="input-group add-on">
+          <input type="hidden" name="petition" value="all">
+          <input class="form-control" placeholder="Recherche" name="search" type="search" style="border-radius: 4px 0px 0px 4px;">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
       </form>
     </div>
 
