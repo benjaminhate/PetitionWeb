@@ -214,11 +214,36 @@ function getPetitionById($id){
 	return $petition;
 }
 
-function addSignature($infos){
+function updateNbSignPetition($id,$nbSign){
 	$connect=connection();
-	$addSignature="INSERT INTO Signatures (petitionId,userId) VALUES ('$infos[petitionId]','$infos[userId]')";
+	$addNbSign="UPDATE Petitions SET nbSign=".$nbSign." WHERE id='".$id."'";
+	mysqli_query($connect,$addNbSign);
+	mysqli_close();
+}
+
+function addSignature($userId,$petitionId,$numberth){
+	$connect=connection();
+	$addSignature="INSERT INTO Signatures (petitionId,userId,numberth) VALUES ('$petitionId','$userId',$numberth)";
 	mysqli_query($connect,$addSignature);
+	echo mysqli_error($connect);
 	mysqli_close($connect);
+}
+
+function cancelSignature($userId,$petitionId){
+	$connect=connection();
+	$cancelSign="DELETE FROM Signatures WHERE userId='".$userId."' AND petitionId='".$petitionId."'";
+	mysqli_query($connect,$cancelSign);
+	mysqli_close($connect);
+}
+
+function getSignature($userId,$petitionId){
+	$connect=connection();
+	$getSign="SELECT * FROM Signatures WHERE userId='$userId' AND petitionId='$petitionId'";
+	$res=mysqli_query($connect,$getSign);
+	$signature=mysqli_fetch_assoc($res);
+	mysqli_free_result($res);
+	mysqli_close($connect);
+	return $signature;
 }
 
 function getNbSubscribers(){
