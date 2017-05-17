@@ -344,20 +344,30 @@ if(isset($_GET['petition'])){
             </div>
           </div>
         <div class="Sign">
-        <a href="sign_petition.php?petition=<?php echo $petition['id']; ?>">
-        <?php
-          $checkSign=getSignature($_SESSION['id'],$petition['id']);
-          if (empty($checkSign)) {
-        ?>
-          <button type="button" class="btn btn-warning" id="buttonsign">Signe-Moi</button>
-        <?php
-          }else{
-        ?>
-          <button type="button" class="btn btn-danger" id="buttonsign">Enlever la signature</button>
-        <?php
-          }
-        ?>
-        </a>
+          <a href="sign_petition.php?petition=<?php echo $petition['id']; ?>">
+          <?php
+            if(isset($_SESSION['id'])){
+          ?>
+            <?php
+              $checkSign=getSignature($_SESSION['id'],$petition['id']);
+              if (empty($checkSign)) {
+            ?>
+              <button type="button" class="btn btn-warning" id="buttonsign">Signe-Moi</button>
+            <?php
+              }else{
+            ?>
+              <button type="button" class="btn btn-danger" id="buttonsign">Enlever la signature</button>
+            <?php
+              }
+            ?>
+          <?php
+            }else{
+          ?>
+            <button type="button" class="btn btn-warning" id="buttonsign">Signe-Moi</button>
+          <?php
+            }
+          ?>
+          </a>
         </div>
       </div>
       <?php
