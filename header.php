@@ -70,11 +70,12 @@
                         </a>
                         <ul class="dropdown-menu">
                           <li><a href="index.php?petition=all">Toutes les pétitions</a></li>
-                          <li><a href="index.php?petition=all&alea">Pétition Aléatoire</a></li>
-                          <li><a href="index.php?petition=all&recent">Petitions récentes</a></li>
+                          <li><a href="home.php?startpetition">Lancer une pétition</a></li>
+                          <li><a href="index.php?petition=all&recent">Petitions à la Une</a></li>
                           <li><a href="index.php?petition=all&urg">Petitions urgentes</a></li>
                           <li><a href="index.php?petition=all&finish">Petitions finies</a></li>
                           <li><a href="index.php?petition=all&success">Petitions sucess</a></li>
+                          <li><a href="petitionalea.php">Pétition aléatoire</a></li>
                         </ul>
 
                     </li>

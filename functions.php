@@ -33,6 +33,16 @@ function getCategoryById($id){
 	return $category;
 }
 
+function getCategoryAlea(){
+  	$connect=connection();
+  	$getCatAlea="SELECT * FROM Categories ORDER BY RAND() LIMIT 0,1";
+  	$res=mysqli_query($connect,$getCatAlea);
+  	$category=mysqli_fetch_all($res,MYSQLI_ASSOC);
+  	mysqli_free_result($res);
+  	mysqli_close($connect);
+  	return $category;
+}
+
 function addUser($name,$surname,$pseudo,$email,$password){
 	$connect=connection();
 	$addUser="INSERT INTO Users (name,surname,pseudo,mail,password) VALUES ('".$name."','".$surname."','".$pseudo."','".$email."','".$password."')";
@@ -97,14 +107,21 @@ function getUserByPseudo($pseudo){
 	return $userByPseudo;
 }
 
+function getUserAlea(){
+  	$connect=connection();
+  	$getUsrAlea="SELECT * FROM Users ORDER BY RAND() LIMIT 0,1";
+  	$res=mysqli_query($connect,$getUsrAlea);
+  	$user=mysqli_fetch_all($res,MYSQLI_ASSOC);
+  	mysqli_free_result($res);
+  	mysqli_close($connect);
+  	return $user;
+}
+
 function addPetition($infos){
 	$connect=connection();
-	$title=mysqli_real_escape_string($connect,$infos['title']);
-	$description=mysqli_real_escape_string($connect,nl2br($infos['description']));
-	$addPetition="INSERT INTO Petitions (title,categoryId,nbSign,expSign,userId,description,dateEnd) VALUES ('".$title."','".$infos['categoryId']."',0,".$infos['expSign'].",'".$infos['userId']."','".$description."',FROM_UNIXTIME($infos[dateEnd]))";
+	$addPetition="INSERT INTO Petitions (title,categoryId,nbSign,expSign,userId,description,dateEnd) VALUES ('".$infos['title']."','".$infos['categoryId']."',".$infos['nbSign'].",".$infos['expSign'].",'".$infos['userId']."','".$infos['description']."',FROM_UNIXTIME($infos[dateEnd]))";
 	mysqli_query($connect,$addPetition);
 	mysqli_close($connect);
-	header('Location:index.php?petition=all');
 }
 
 function getAllPetitions(){
@@ -167,15 +184,15 @@ function getAllPetitionsUrg(){
 	return $petitions;
 }
 
-function GetPetitionAlea(){
+function getPetitionAlea(){
   	$connect=connection();
   	$getPetAlea="SELECT * FROM Petitions ORDER BY RAND() LIMIT 0,1";
   	$res=mysqli_query($connect,$getPetAlea);
-  	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
+  	$petition=mysqli_fetch_all($res,MYSQLI_ASSOC);
   	mysqli_free_result($res);
   	mysqli_close($connect);
-  	return $petitions;
-  }
+  	return $petition;
+}
 
 function getAllPetitionsByUser($userId){
 	$connect=connection();

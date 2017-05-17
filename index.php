@@ -220,7 +220,7 @@ if(isset($_GET['petition'])){
       $petitions=getAllPetitionssuccess();
     }
     if(isset($_GET['alea'])){
-      $petitions=GetPetitionAlea();
+      $petitions=getPetitionAlea();
     }
     if(empty($petitions)){
       ?>
@@ -275,10 +275,12 @@ if(isset($_GET['petition'])){
             <?php echo $petition['nbSign'] ?> signatures
           </div>
           <div class="sign">
-            <button type="button" class="btn btn-warning">Signe-Moi</button>
+            <a href="index.php?petition=<?php echo $petition['id']; ?>">
+              <button type="button" class="btn btn-warning">Voir plus</button>
+            </a>
           </div>
         </div>
-        </div>
+    </div>
         <?php
       }
     }
@@ -301,7 +303,7 @@ if(isset($_GET['petition'])){
             <p class="blog-post-meta"> <?php echo date("d/m/Y",strtotime($petition['dateBegin'])) ?> by <a href="index.php?petition=all&user=<?php echo $user['id']?>"><?php echo $user['pseudo']; ?></a></p>
           </div>
           <div class="Categorie">
-            <?php echo $category['name'] ?>
+            Categorie : <?php echo $category['name'] ?>
           </div>
         </div>
         <div class="Description">

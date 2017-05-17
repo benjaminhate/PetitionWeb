@@ -263,3 +263,8 @@
   margin-left: 70px;
   width: 550px;
 }
+
+.form-control.date{
+  width: 31.5%;
+  display: inline;
+}

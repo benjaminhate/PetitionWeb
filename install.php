@@ -45,6 +45,12 @@ $createSignatures="CREATE TABLE IF NOT EXISTS Signatures (
   FOREIGN KEY (userId) REFERENCES Users(id)
 )";
 
+$first_connect=mysqli_connect($GLOBALS['dbServ'],$GLOBALS['dbUser'],$GLOBALS['dbPass']);
+
+mysqli_query($first_connect,$createDb);
+echo mysqli_info($first_connect);
+echo mysqli_error($first_connect);
+
 $connect=connection();
 
 mysqli_query($connect,$createCategories);

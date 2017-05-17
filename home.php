@@ -38,7 +38,12 @@
           if($redirectDate){
             header('Location:home.php?startpetition&errorDate');
           }else{
+            $connect=connection();
+            $infos['title']=mysqli_real_escape_string($connect,$infos['title']);
+            $infos['description']=mysqli_real_escape_string($connect,nl2br($infos['description']));
+            $infos['nbSign']=0;
             addPetition($infos);
+            header('Location:index.php?petition=all');
           }
         }else{
           header('Location:home.php?startpetition&errorNullValue');
@@ -74,18 +79,18 @@
             <form action="home.php" method="post">
               <div class="form-group">
                 <label for="title">Title :</label>
-                <input type="text" name="title" class="form-control" placeholder="Title">
+                <input type="text" id="title" name="title" class="form-control" placeholder="Title" oninput="validatePetition()">
               </div>
               <div class="form-group">
                 <label for="description">Description :</label>
-                <textarea name="description" placeholder="Description" cols="50" rows="10" class="form-control"></textarea>
+                <textarea name="description" id="description" placeholder="Description" cols="50" rows="10" class="form-control" oninput="validatePetition()"></textarea>
               </div>
               <div class="form-group">
               <label for="date"> End Date : </label>
               <br>
-              <input type="date" name="dayEnd" placeholder="End day"> /
-              <input type="date" name="monthEnd" placeholder="End month"> /
-              <input type="date" name="yearEnd" placeholder="End year"> <br>
+              <input type="date" name="dayEnd" placeholder="End day" class="form-control date"> <b style="font-size: 20px;">/</b>
+              <input type="date" name="monthEnd" placeholder="End month" class="form-control date"> <b style="font-size: 20px;"">/</b>
+              <input type="date" name="yearEnd" placeholder="End year" class="form-control date"> <br>
               </div>
               <div class="form-group">
                 <label for="number"> Number : </label>
@@ -107,7 +112,7 @@
                 </div>
                  <br>
               <div class="click">
-                <button name="createPetition" id="postpetition" class="btn btn-lg btn-primary btn-block" type="submit">Submit Petition</button>
+                <button name="createPetition" id="postpetition" class="btn btn-lg btn-primary btn-block" type="submit" disabled="disabled">Submit Petition</button>
               </div>
             </form>
           </div>
@@ -118,6 +123,18 @@
       ?>
     </div>
 
+    <script type="text/javascript">
+      function validatePetition(){
+        var title=document.getElementById('title');
+        var description=document.getElementById('description');
+        var submitBtn=document.getElementById('postpetition');
+        if(title.value && description.value){
+          submitBtn.disabled=false;
+        }else{
+          submitBtn.disabled=true;
+        }
+      }
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
 </body>
