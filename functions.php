@@ -43,28 +43,75 @@ function getCategoryAlea(){
   	return $category;
 }
 
-function addUser($name,$surname,$pseudo,$email,$password){
+function addUser($name,$surname,$pseudo,$email,$password,$img='generic.jpg'){
 	$connect=connection();
-	$addUser="INSERT INTO Users (name,surname,pseudo,mail,password) VALUES ('".$name."','".$surname."','".$pseudo."','".$email."','".$password."')";
+	$addUser="INSERT INTO Users (name,surname,pseudo,mail,password,img) VALUES ('".$name."','".$surname."','".$pseudo."','".$email."','".$password."','".$img."')";
 	mysqli_query($connect,$addUser);
 	mysqli_close($connect);
 }
 
 function updateUser($infos){
 	$connect=connection();
-	if(empty($infos['password'])){
-		$update="UPDATE Users SET name='$infos[name]',surname='$infos[surname]',pseudo='$infos[pseudo]',mail='$infos[mail]' WHERE id='$infos[id]'";
-	}else{
-		$update="UPDATE Users SET name='$infos[name]',surname='$infos[surname]',pseudo='$infos[pseudo]',mail='$infos[mail]',password='$infos[password]' WHERE id='$infos[id]'";
+	setUserName($infos['name']);
+	setUserSurname($infos['surname']);
+	setUserPseudo($infos['pseudo']);
+	setUserMail($infos['mail']);
+	setUserImg($infos['img']);
+	if(!empty($infos['password'])){
+		setUserPass($infos['password']);
 	}
-	$_SESSION['name']=$infos['name'];
-	$_SESSION['surname']=$infos['surname'];
-	$_SESSION['pseudo']=$infos['pseudo'];
-	$_SESSION['mail']=$infos['mail'];
-	mysqli_query($connect,$update);
-	mysqli_error($connect);
 	mysqli_close($connect);
-	header('Location:profile.php');
+}
+
+function setUserName($id,$name){
+	$connect=connection();
+	$setName="UPDATE Users SET name=$name WHERE id=$id";
+	$_SESSION['name']=$name;
+	mysqli_query($connect,$setName);
+	mysqli_close($connect);
+}
+
+function setUserSurname($id,$surname){
+	$connect=connection();
+	$setSurname="UPDATE Users SET surnamename=$surname WHERE id=$id";
+	$_SESSION['surname']=$surname;
+	mysqli_query($connect,$setSurname);
+	mysqli_close($connect);
+}
+
+function setUserPseudo($id,$pseudo){
+	$connect=connection();
+	$setPseudo="UPDATE Users SET pseudo=$pseudo WHERE id=$id";
+	$_SESSION['pseudo']=$pseudo;
+	mysqli_query($connect,$setPseudo);
+	mysqli_close($connect);
+}
+
+function setUserMail($id,$mail){
+	$connect=connection();
+	$setMail="UPDATE Users SET mail=$mail WHERE id=$id";
+	$_SESSION['mail']=$mail;
+	mysqli_query($connect,$setMail);
+	mysqli_close($connect);
+}
+
+function setUserPass($id,$pass){
+	$connect=connection();
+	$setPass="UPDATE Users SET pass=$pass WHERE id=$id";
+	mysqli_query($connect,$setPass);
+	mysqli_close($connect);
+}
+
+function setUserImg($id,$file){
+	$connect=connection();
+	$fichier=basename($file['name']);
+	if(move_uploaded_file($file['tmp_name'], $fichier)){
+		$setImg="UPDATE Users SET img='".$file['name']."' WHERE id=$id";
+		$_SESSION['img']=$file['name'];
+		mysqli_query($connect,$setImg);
+	}
+	echo mysqli_error($connect);
+	mysqli_close($connect);
 }
 
 function getAllUsers(){
@@ -214,6 +261,16 @@ function getPetitionById($id){
 	return $petition;
 }
 
+function getPetitionSignedByUser($userId){
+	$connect=connection();
+	$getPetitionSigned="SELECT * FROM Signatures JOIN Petitions ON Petitions.id=Signatures.petitionId WHERE Signatures.userId=$userId";
+	$res=mysqli_query($connect,$getPetitionSigned);
+	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
+	mysqli_free_result($res);
+	mysqli_close($connect);
+	return $petitions;
+}
+
 function updateNbSignPetition($id,$nbSign){
 	$connect=connection();
 	$addNbSign="UPDATE Petitions SET nbSign=".$nbSign." WHERE id='".$id."'";
@@ -272,14 +329,19 @@ function sign_in($email,$password){
 		$_SESSION['surname']=$userExist['surname'];
 		$_SESSION['pseudo']=$userExist['pseudo'];
 		$_SESSION['mail']=$userExist['mail'];
+		$_SESSION['img']=$userExist['img'];
 		if(isset($_POST['startpetitionfail'])){
 			header('Location:home.php?startpetition');
+		}elseif(isset($_POST['signpetitionfail'])) {
+			header("Location:index.php?petition=$_POST[signpetitionfail]");
 		}else{
-			header('Location:profile.php');
+			header('Location:profile.php?user='.$userExist[id]);
 		}
 	}else{
 		if(isset($_POST['startpetitionfail'])){
 			header("Location:index.php?signin&msg=errorConnection&startpetitionfail");
+		}elseif (isset($_POST['signpetitionfail'])) {
+			header("Location:index.php?signin&msg=errorConnection&signpetitionfail=$_POST[signpetitionfail]");
 		}else{
 			header("Location:index.php?signin&msg=errorConnection");
 		}

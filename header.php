@@ -10,11 +10,11 @@
       <?php
         if(isset($_SESSION['id'])){
       ?>
-        <a href="profile.php" class="btn btn-primary"><?php echo $_SESSION['pseudo'] ?></a>
+        <a href="profile.php?user=<?php echo $_SESSION['id'] ?>" class="btn btn-primary"><?php echo $_SESSION['pseudo'] ?></a>
       <?php
         }else{
       ?>
-        <a href="?signup" class="btn btn-warning">Sign Up</a>
+        <a href="?signup" class="btn btn-warning">S'inscrire</a>
       <?php
         }
       ?>
@@ -23,11 +23,11 @@
       <?php
         if(isset($_SESSION['id'])){
       ?>
-        <a href="logout.php" class="btn btn-warning">Logout</a>
+        <a href="logout.php" class="btn btn-warning">Se déconnecter</a>
       <?php
         }else{
       ?>
-        <a href="?signin" class="btn btn-warning">Sign In</a>
+        <a href="?signin" class="btn btn-warning">Se connecter</a>
       <?php
         }
       ?>
@@ -74,7 +74,7 @@
                           <li><a href="index.php?petition=all&recent">Petitions à la Une</a></li>
                           <li><a href="index.php?petition=all&urg">Petitions urgentes</a></li>
                           <li><a href="index.php?petition=all&finish">Petitions finies</a></li>
-                          <li><a href="index.php?petition=all&success">Petitions sucess</a></li>
+                          <li><a href="index.php?petition=all&success">Petitions réussies</a></li>
                           <li><a href="petitionalea.php">Pétition aléatoire</a></li>
                         </ul>
 

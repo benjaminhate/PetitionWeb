@@ -18,6 +18,7 @@
       $id=$_SESSION['id'];
       if(isset($_POST['createPetition'])){
         $redirectDate=false;
+        $redirectSign=false;
         if(!empty($_POST['title']) && !empty($_POST['description']) && !empty($_POST['category'])){
           $infos = array('title' => $_POST['title'], 'description' => $_POST['description'], 'categoryId' => $_POST['category'], 'userId' => $id);
           if(!empty($_POST['dayEnd']) || !empty($_POST['monthEnd']) || !empty($_POST['yearEnd'])){
@@ -31,12 +32,19 @@
             $infos['dateEnd']='NULL';
           }
           if(!empty($_POST['expSign'])){
-            $infos['expSign']=$_POST['expSign'];
+            $expSign=intval($_POST['expSign']);
+            if(is_int($expSign) && $expSign>0){
+              $infos['expSign']=$_POST['expSign'];
+            }else{
+              $redirectSign=true;
+            }
           }else{
             $infos['expSign']='NULL';
           }
           if($redirectDate){
             header('Location:home.php?startpetition&errorDate');
+          }elseif ($redirectSign) {
+            header('Location:home.php?startpetition&errorSign');
           }else{
             $connect=connection();
             $infos['title']=mysqli_real_escape_string($connect,$infos['title']);
@@ -76,28 +84,35 @@
           <?php
             }
           ?>
+          <?php
+            if(isset($_GET['errorSign'])){
+          ?>
+          <div class="alert alert-danger">Le nombre de signatures attendues doit être un entier supérieur à 0.</div>
+          <?php
+            }
+          ?>
             <form action="home.php" method="post">
               <div class="form-group">
-                <label for="title">Title :</label>
-                <input type="text" id="title" name="title" class="form-control" placeholder="Title" oninput="validatePetition()">
+                <label for="title">Titre :</label>
+                <input type="text" id="title" name="title" class="form-control" placeholder="Titre" oninput="validatePetition()">
               </div>
               <div class="form-group">
                 <label for="description">Description :</label>
-                <textarea name="description" id="description" placeholder="Description" cols="50" rows="10" class="form-control" oninput="validatePetition()"></textarea>
+                <textarea name="description" id="description" placeholder="Description" cols="50" rows="10" class="form-control" oninput="validatePetition()" style="resize: none;"></textarea>
               </div>
               <div class="form-group">
-              <label for="date"> End Date : </label>
+              <label for="date"> Date de fin : </label>
               <br>
-              <input type="date" name="dayEnd" placeholder="End day" class="form-control date"> <b style="font-size: 20px;">/</b>
-              <input type="date" name="monthEnd" placeholder="End month" class="form-control date"> <b style="font-size: 20px;"">/</b>
-              <input type="date" name="yearEnd" placeholder="End year" class="form-control date"> <br>
+              <input type="date" name="dayEnd" placeholder="Jour" class="form-control date"> <b style="font-size: 20px;">/</b>
+              <input type="date" name="monthEnd" placeholder="Mois" class="form-control date"> <b style="font-size: 20px;">/</b>
+              <input type="date" name="yearEnd" placeholder="Année" class="form-control date"> <br>
               </div>
               <div class="form-group">
-                <label for="number"> Number : </label>
-                <input type="number" name="expSign" placeholder="Signs expected" class="form-control">
+                <label for="number"> Nombre de signatures attendues : </label>
+                <input type="number" name="expSign" placeholder="Signatures attendues" class="form-control" min="0">
               </div>
               <div class="form-group">
-              <label for="category"> Categories : </label>
+              <label for="category"> Catégorie : </label>
               <br>
                 <select name="category" class="form-control">
                   <?php

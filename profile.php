@@ -8,14 +8,25 @@
     <?php
     	session_start();
     	include('functions.php');
-    	if(!isset($_SESSION['id'])){
-    		header('Location:index.php');
-    	}
-    	$name=$_SESSION['name'];
-    	$surname=$_SESSION['surname'];
-    	$pseudo=$_SESSION['pseudo'];
-    	$email=$_SESSION['mail'];
-    	$nbSigned=getNbPetitionsSigned($_SESSION['id'])['count(*)'];
+      if(!isset($_GET['user'])){
+        header('Location:index.php');
+      }
+      if(isset($_GET['edit']) && (!isset($_SESSION['id']) || $_GET['user']!=$_SESSION['id'])){
+        header('Location:profile.php?user='.$_GET['user']);
+      }
+      if(!isset($_SESSION['id']) || $_GET['user']!=$_SESSION['id']){
+        $user=getUserById($_GET['user']);
+        $id=$user['id'];
+        $pseudo=$user['pseudo'];
+        $img=$user['img'];
+      }else{
+        $id=$_SESSION['id'];
+        $name=$_SESSION['name'];
+        $surname=$_SESSION['surname'];
+        $pseudo=$_SESSION['pseudo'];
+        $email=$_SESSION['mail'];
+        $img=$_SESSION['img'];
+      }
     ?>
     <title><?php echo $GLOBALS['siteName']; ?></title>
 </head>
@@ -26,9 +37,126 @@
       ?>
       <div class="body">
       <?php
-      	if(isset($_GET['edit'])){
+        if(isset($_GET['user'])){
       ?>
-			<div class=profile>
+      <div class="user_presentation">
+          <?php
+          if(isset($_GET['edit'])){
+          ?>
+          <form action="edit.php" method="post" enctype="multipart/form-data">
+            <input type="file" id="file" name="img" class="hidden" onchange="this.form.submit();">
+            <a onclick="document.getElementById('file').click();" class="imageEdit" style="cursor: pointer;">
+            <div class="imgDiv">
+              <img id="img" class="img" src="<?php echo $img; ?>" alt="Generic placeholder image" width="140" height="140">
+              <span class="modifImg">Modifier</span>
+            </div>
+            </a>
+          </form>
+          <?php
+          }else{
+          ?>
+          <div class="imgDiv imageEdit">
+            <img class="img" src="<?php echo $img; ?>" alt="Generic placeholder image" width="140" height="140">
+          </div>
+          
+          <?php } ?>
+          <h2><?php echo $pseudo; ?></h2>
+      <?php
+      if(isset($_SESSION['id']) && $_GET['user']==$_SESSION['id'] && !isset($_GET['edit'])){
+      ?>
+      <div class="edit">
+        <a href="profile.php?user=<?php echo $id; ?>&edit">
+          <button type="button" class="btn btn-info">Modifier le profil</button>
+        </a>
+      </div>
+      <?php } ?>
+      </div>
+      <div class="users_petitions">
+        <div class="petitions_signees">
+          <div class="presentation_petition">
+            <h3> Pétitions signées : </h3>
+          </div>
+      <?php
+          $petitionsigned=getPetitionSignedByUser($id);
+          if(empty($petitionsigned)){
+      ?>
+        <div class="Article_small">
+          <div class="noSigned">
+            Aucune pétition signée.
+          </div>
+        </div>
+      <?php
+          }else{
+          foreach ($petitionsigned as $key => $petition) {
+            $user=getUserById($petition['userId']);
+      ?>
+        <div class="Article_small">
+          <div class="etage">
+            <div class="titre">
+                <a href="index.php?petition=<?php echo $petition['id']; ?>"><h4><?php echo $petition['title'] ?></h4></a>
+            </div>
+            <div class="author">
+              <p class="blog-post-meta"><?php echo date("d/m/Y",strtotime($petition['dateBegin']));?> by <a href="profile.php?user=<?php echo $user['id']; ?>"><?php echo $user['pseudo']; ?></a></p>
+            </div>
+          </div>
+        <div class="etage">
+          <div class="sign">
+            <a href="index.php?petition=<?php echo $petition['id']; ?>">
+              <button type="button" class="btn btn-warning">Voir plus</button>
+            </a>
+          </div>
+        </div>
+        </div>
+      <?php
+          }
+        }
+      ?>
+      </div>
+      <div class="petitions_ecrites">
+        <div class="presentation_petition">
+          <h3> Pétitions écrites :</h3>
+        </div>
+      <?php
+          $petitionwriten=getAllPetitionsByUser($id);
+          if(empty($petitionwriten)){
+      ?>
+        <div class="Article_small">
+          <div class="noSigned">
+            Aucune pétition écrite.
+          </div>
+        </div>
+      <?php
+        }else{
+        foreach ($petitionwriten as $key => $petition) {
+      ?>
+        <div class="Article_small">
+          <div class="etage">
+            <div class="titre">
+                <a href="index.php?petition=<?php echo $petition['id']; ?>"><h4><?php echo $petition['title'] ?></h4></a>
+            </div>
+            <div class="author">
+              <p class="blog-post-meta"><?php echo date("d/m/Y",strtotime($petition['dateBegin']));?></p>
+            </div>
+          </div>
+          <div class="etage">
+            <div class="sign">
+              <a href="index.php?petition=<?php echo $petition['id']; ?>">
+                <button type="button" class="btn btn-warning">Voir plus</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      <?php
+          }
+        }
+      ?>
+        </div>
+      </div>
+      <?php
+        }
+        if(isset($_GET['edit'])){
+      ?>
+			<!-- <div class=profile>
       	<form action="edit.php" method="post">
 					<div class="form-group">
 						<label for="name">Name :</label>
@@ -54,22 +182,19 @@
 						<input type="submit" value="Edit">
 					</div>
       	</form>
-			</div>
-      <?php }else{ ?>
-        <h1>Profil de : <?php echo $pseudo ?></h1>
-        <p>Name : <?php echo $name ?></p>
-        <p>Surname : <?php echo $surname ?></p>
-        <p>Pseudo : <?php echo $pseudo ?></p>
-        <p>Mail : <?php echo $email ?></p>
-		<p>Pétitions signées : <?php echo $nbSigned ?></p>
-		<p><a href="?edit" class="btn btn-success">Edit profile</a></p>
-	  <?php } ?>
-      </div>
+			</div> -->
+      <?php } ?>
       <?php
         include('footer.php');
       ?>
     </div>
 
+    <script type="text/javascript">
+      function editImg(){
+        var file=document.getElementById('file');
+        file.click();
+      }
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
 </body>

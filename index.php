@@ -134,18 +134,18 @@
                 <?php
                 }
                 ?>
-                <label for="InputName">Name</label>
-                <input type="text" id="name" name="name" placeholder="Name" class="form-control" oninput="validateSignUpForm()">
-                <label for="InputSurname">Surname</label>
-                <input type="text" id="surname" name="surname" placeholder="Surname" class="form-control" oninput="validateSignUpForm()">
+                <label for="InputName">Nom</label>
+                <input type="text" id="name" name="name" placeholder="Nom" class="form-control" oninput="validateSignUpForm()">
+                <label for="InputSurname">Prénom</label>
+                <input type="text" id="surname" name="surname" placeholder="Prénom" class="form-control" oninput="validateSignUpForm()">
                 <label for="InputPseudo">Pseudo</label>
                 <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" class="form-control <?php if(isset($_GET['errorPseudoUsed'])){echo 'errorPseudoUsed';} ?>" oninput="validateSignUpForm()">
                 <label for="InputEmail">Email</label>
                 <input type="email" id="emailUp" name="email" placeholder="Email" class="form-control <?php if(isset($_GET['errorUserExist'])){echo 'errorUserExist';} ?>" oninput="validateSignUpForm()">
-                <label for="InputPassword">Password</label>
-                <input type="password" id="pw1" name="password" placeholder="Password" class="form-control" oninput="validateSignUpForm()">
-                <label for="InputConfirmPassword">Confirm Password</label>
-                <input type="password" id="pw2" name="confirm_password" placeholder="Confirm Password" class="form-control" oninput="validateSignUpForm()">
+                <label for="InputPassword">Mot de passe</label>
+                <input type="password" id="pw1" name="password" placeholder="MdP" class="form-control" oninput="validateSignUpForm()">
+                <label for="InputConfirmPassword">Confirmer le mot de passe</label>
+                <input type="password" id="pw2" name="confirm_password" placeholder="Confirmer MdP" class="form-control" oninput="validateSignUpForm()">
               </div>
               <br>
               <div class="click">
@@ -174,6 +174,16 @@
                 }
                 ?>
                 <?php
+                if(isset($_GET['signpetitionfail'])){
+                ?>
+                <div class="alert alert-success">
+                  Connectez vous pour signer la pétition.
+                  <input type="hidden" name="signpetitionfail" value="<?php echo $_GET['signpetitionfail'] ?>">
+                </div>
+                <?php
+                }
+                ?>
+                <?php
                 if(isset($_GET['msg'])){
                 ?>
                 <div class="alert alert-danger">Email ou mot de passe invalide.</div>
@@ -182,8 +192,8 @@
                 ?>
                 <label for="InputEmail">Email</label>
                 <input type="text" id="emailIn" name="email" placeholder="Email" class="form-control" oninput="validateSignInForm()">
-                <label for="InputPassword">Password</label>
-                <input type="password" id="pwIn" name="password" placeholder="Password" class="form-control" oninput="validateSignInForm()">
+                <label for="InputPassword">Mot de passe</label>
+                <input type="password" id="pwIn" name="password" placeholder="MdP" class="form-control" oninput="validateSignInForm()">
               </div>
               <br>
               <div class="click">
@@ -236,7 +246,7 @@ if(isset($_GET['petition'])){
             <a href="index.php?petition= <?php echo $petition['id'] ?>"><h4><?php echo $petition['title'] ?></h4></a>
             </div>
             <div class="author">
-              <p class="blog-post-meta"> <?php echo date("d/m/Y",strtotime($petition['dateBegin'])) ?> by <a href="index.php?petition=all&user=<?php echo $user['id']?>"><?php echo $user['pseudo']; ?></a></p>
+              <p class="blog-post-meta"> <?php echo date("d/m/Y",strtotime($petition['dateBegin'])) ?> par <a href="profile.php?user=<?php echo $user['id']?>"><?php echo $user['pseudo']; ?></a></p>
             </div>
           </div>
           <div class="shortDescription">
@@ -300,10 +310,10 @@ if(isset($_GET['petition'])){
         </div>
         <div class="group">
           <div class="DateandAuthor">
-            <p class="blog-post-meta"> <?php echo date("d/m/Y",strtotime($petition['dateBegin'])) ?> by <a href="index.php?petition=all&user=<?php echo $user['id']?>"><?php echo $user['pseudo']; ?></a></p>
+            <p class="blog-post-meta"> <?php echo date("d/m/Y",strtotime($petition['dateBegin'])) ?> par <a href="profile.php?user=<?php echo $user['id']?>"><?php echo $user['pseudo']; ?></a></p>
           </div>
           <div class="Categorie">
-            Categorie : <?php echo $category['name'] ?>
+            Catégorie : <a href="index.php?petition=all&category=<?php echo $category['id']; ?>"><?php echo $category['name'] ?></a>
           </div>
         </div>
         <div class="Description">
@@ -346,24 +356,29 @@ if(isset($_GET['petition'])){
         <div class="Sign">
           <a href="sign_petition.php?petition=<?php echo $petition['id']; ?>">
           <?php
+            if(empty($petition['dateEnd'])){
+              $disable=false;
+            }else{
+              $disable=time()>strtotime($petition['dateEnd']);
+            }
             if(isset($_SESSION['id'])){
           ?>
             <?php
               $checkSign=getSignature($_SESSION['id'],$petition['id']);
               if (empty($checkSign)) {
             ?>
-              <button type="button" class="btn btn-warning" id="buttonsign">Signe-Moi</button>
+              <button type="button" class="btn btn-warning" id="buttonsign" <?php if($disable){echo "disabled='disabled'";} ?>>Signe-Moi</button>
             <?php
               }else{
             ?>
-              <button type="button" class="btn btn-danger" id="buttonsign">Enlever la signature</button>
+              <button type="button" class="btn btn-danger" id="buttonsign" <?php if($disable){echo "disabled='disabled'";} ?>>Enlever la signature</button>
             <?php
               }
             ?>
           <?php
             }else{
           ?>
-            <button type="button" class="btn btn-warning" id="buttonsign">Signe-Moi</button>
+            <button type="button" class="btn btn-warning" id="buttonsign" <?php if($disable){echo "disabled='disabled'";} ?>>Signe-Moi</button>
           <?php
             }
           ?>
