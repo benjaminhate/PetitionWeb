@@ -259,11 +259,11 @@ if(isset($_GET['petition'])){
               }
              ?>
           </div>
-          <div class="progress">
+          <div class="progress" <?php if(empty($petition['expSign'])){echo 'style="visibility: hidden;"';} ?>>
             <?php
             if(empty($petition['expSign'])){
               ?>
-              <div class="progress-bar progress-bar-striped" role="progressbar"  style="width: 100%;background-color:grey;" ><span class="sr-only"></span></div>
+              <div class="progress-bar progress-bar-striped" role="progressbar"  style="width: 0%;background-color:grey;" ><span class="sr-only"></span></div>
               <?php
             }else {
               if($petition['nbSign']<$petition['expSign']){
@@ -285,9 +285,7 @@ if(isset($_GET['petition'])){
             <?php echo $petition['nbSign'] ?> signatures
           </div>
           <div class="sign">
-            <a href="index.php?petition=<?php echo $petition['id']; ?>">
-              <button type="button" class="btn btn-warning">Voir plus</button>
-            </a>
+            <a href="index.php?petition=<?php echo $petition['id']; ?>" class="btn btn-warning">Voir plus</a>
           </div>
         </div>
     </div>
@@ -319,11 +317,11 @@ if(isset($_GET['petition'])){
         <div class="Description">
           <?php echo $petition['description'] ?>
         </div>
-        <div class="progress">
+        <div class="progress" <?php if(empty($petition['expSign'])){echo 'style="visibility: hidden;"';} ?>>
           <?php
           if(empty($petition['expSign'])){
             ?>
-            <div class="progress-bar progress-bar-striped" role="progressbar"  style="width: 100%;background-color:grey;" ><span class="sr-only"></span></div>
+            <div class="progress-bar progress-bar-striped" role="progressbar"  style="width: 0%;background-color:grey;" ><span class="sr-only"></span></div>
             <?php
           }else {
             if($petition['nbSign']<$petition['expSign']){
@@ -354,12 +352,13 @@ if(isset($_GET['petition'])){
             </div>
           </div>
         <div class="Sign">
-          <a href="sign_petition.php?petition=<?php echo $petition['id']; ?>">
           <?php
+            date_default_timezone_set('Europe/Paris');
+            $time=date('Y-m-d H:i:s');
             if(empty($petition['dateEnd'])){
               $disable=false;
             }else{
-              $disable=time()>strtotime($petition['dateEnd']);
+              $disable=$petition['dateEnd']<$time;
             }
             if(isset($_SESSION['id'])){
           ?>
@@ -367,22 +366,21 @@ if(isset($_GET['petition'])){
               $checkSign=getSignature($_SESSION['id'],$petition['id']);
               if (empty($checkSign)) {
             ?>
-              <button type="button" class="btn btn-warning" id="buttonsign" <?php if($disable){echo "disabled='disabled'";} ?>>Signe-Moi</button>
+              <a href="sign_petition.php?petition=<?php echo $petition['id']; ?>" class="btn btn-warning" id="buttonsign" <?php if($disable){echo "disabled='disabled'";} ?>>Signe-Moi</a>
             <?php
               }else{
             ?>
-              <button type="button" class="btn btn-danger" id="buttonsign" <?php if($disable){echo "disabled='disabled'";} ?>>Enlever la signature</button>
+              <a href="sign_petition.php?petition=<?php echo $petition['id']; ?>" class="btn btn-danger" id="buttonsign" <?php if($disable){echo "disabled='disabled'";} ?>>Enlever la signature</a>
             <?php
               }
             ?>
           <?php
             }else{
           ?>
-            <button type="button" class="btn btn-warning" id="buttonsign" <?php if($disable){echo "disabled='disabled'";} ?>>Signe-Moi</button>
+            <a href="sign_petition.php?petition=<?php echo $petition['id']; ?>" class="btn btn-warning" id="buttonsign" <?php if($disable){echo "disabled='disabled'";} ?>>Signe-Moi</a>
           <?php
             }
           ?>
-          </a>
         </div>
       </div>
       <?php

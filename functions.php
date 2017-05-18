@@ -102,15 +102,29 @@ function setUserPass($id,$pass){
 	mysqli_close($connect);
 }
 
-function setUserImg($id,$file){
+function setUserImg($id,$file,$maxsize){
 	$connect=connection();
-	$fichier=basename($file['name']);
-	if(move_uploaded_file($file['tmp_name'], $fichier)){
-		$setImg="UPDATE Users SET img='".$file['name']."' WHERE id=$id";
-		$_SESSION['img']=$file['name'];
-		mysqli_query($connect,$setImg);
+	$extensions=array('.png','.jpg','.gif','.jpeg');
+	$extension=strtolower(strrchr($file['name'],'.'));
+	if(!in_array($extension, $extensions)){
+		header("Location:profile.php?user=".$id."&edit&errorImgExt");
+	}else{
+		if($file['size'] > $maxsize){
+			header("Location:profile.php?user=".$id."&edit&errorImgSize");
+		}else{
+			$fichier=basename($file['name']);
+			if(move_uploaded_file($file['tmp_name'], $fichier)){
+				$setImg="UPDATE Users SET img='".$file['name']."' WHERE id=$id";
+				$_SESSION['img']=$file['name'];
+				mysqli_query($connect,$setImg);
+				header('Location:profile.php?user='.$_SESSION['id']);
+			}else{
+				header("Location:profile.php?user=".$id."&edit&errorImgLoad");
+			}
+		}
+
 	}
-	echo mysqli_error($connect);
+	
 	mysqli_close($connect);
 }
 
@@ -193,7 +207,7 @@ function getAllPetitionsByCategory($categoryId){
 
 function getAllPetitionssuccess(){
   $connect=connection();
-  $getAllPetitionSuccess="SELECT * FROM Petitions WHERE nbSign > expSign ORDER BY dateBegin DESC";
+  $getAllPetitionSuccess="SELECT * FROM Petitions WHERE nbSign >= expSign ORDER BY dateBegin DESC";
   $res=mysqli_query($connect,$getAllPetitionSuccess);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);
@@ -203,7 +217,9 @@ function getAllPetitionssuccess(){
 
 function getAllPetitionsfinish(){
 	$connect=connection();
-	$getAllPetitionfinish="SELECT * FROM Petitions WHERE DATE(dateEnd) < DATE(NOW()) ORDER BY dateBegin DESC";
+	date_default_timezone_set('Europe/Paris');
+	$time=date('Y-m-d H:i:s');
+	$getAllPetitionfinish="SELECT * FROM Petitions WHERE dateEnd < '".$time."' ORDER BY dateBegin DESC";
 	$res=mysqli_query($connect,$getAllPetitionfinish);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);

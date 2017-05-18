@@ -2,6 +2,9 @@
 
 include('config.php');
 
+session_start();
+session_destroy();
+
 $destroy="DROP DATABASE ".$GLOBALS['dbName'];
 $connect=mysqli_connect($GLOBALS['dbServ'],$GLOBALS['dbUser'],$GLOBALS['dbPass']);
 mysqli_query($connect,$destroy);
@@ -49,9 +52,19 @@ $title="Test3";
 $description="Je teste mon test.php.";
 $categoryId=getCategoryAlea()['0']['id'];
 $expSign=rand(1,10);
-$dateEnd='NULL';
+$dateEnd=mktime(0,0,0,05,18,2017);
 $userId=getUserAlea()['0']['id'];
 $infos = array('title' => $title, 'description' => $description, 'categoryId' => $categoryId, 'userId' => $userId, 'nbSign' => 0, 'expSign' => $expSign, 'dateEnd' => $dateEnd);
+addPetition($infos);
+
+$title="Test4";
+$description="Je teste mon test.php.";
+$categoryId=getCategoryAlea()['0']['id'];
+$expSign=rand(1,10);
+$nbSign=$expSign-1;
+$dateEnd=mktime(0,0,0,06,18,2017);
+$userId=getUserAlea()['0']['id'];
+$infos = array('title' => $title, 'description' => $description, 'categoryId' => $categoryId, 'userId' => $userId, 'nbSign' => $nbSign, 'expSign' => $expSign, 'dateEnd' => $dateEnd);
 addPetition($infos);
 
 header('Location:index.php');

@@ -12,8 +12,8 @@ $createPetitions="CREATE TABLE IF NOT EXISTS Petitions (
   expSign INT DEFAULT NULL,
   userId INT NOT NULL,
   description VARCHAR(1000),
-  dateBegin TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  dateEnd TIMESTAMP,
+  dateBegin DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  dateEnd DATETIME,
   PRIMARY KEY (id),
   FOREIGN KEY (categoryId) REFERENCES Categories(id),
   FOREIGN KEY (userId) REFERENCES Users(id)

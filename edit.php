@@ -7,8 +7,7 @@ if(!isset($_SESSION['id'])){
 }
 
 if(isset($_FILES['img'])){
-	setUserImg($_SESSION['id'],$_FILES['img']);
-	header('Location:profile.php?user='.$_SESSION['id']);
+	setUserImg($_SESSION['id'],$_FILES['img'],intval($GLOBALS['maxFileSize']));
 }
 
 // $userId=$_SESSION['id'];
