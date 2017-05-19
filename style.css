@@ -65,17 +65,17 @@
 
 .menu{
   float: left;
-  max-width: 600px;
 }
 
 .menu .navbar{
   margin-bottom: 0px;
   border: 0px;
+  width: 100%;
   background-color: #77511b;
 }
 
 .menu .navbar > *{
-  max-width: 600px;
+  width: 100%;
 }
 
 .menu .navbar-inverse .navbar-nav > li > a{
