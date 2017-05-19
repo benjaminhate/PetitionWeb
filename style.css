@@ -218,6 +218,7 @@
 }
 .Article .shortDescription{
   margin-bottom: 20px;
+  word-wrap: break-word;
 }
 
 .AllArticle{
@@ -257,6 +258,7 @@
 }
 .AllArticle .Description {
   margin-bottom: 25px;
+  word-wrap: break-word;
 }
 .AllArticle #buttonsign {
   margin-top: 50px;
@@ -318,17 +320,17 @@
 .Article_small .sign {
   float: right;
 }
-.users_petitions{
+.petitions_table{
   width: 100%;
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
 }
-.petitions_signees {
+.petitions_left {
   float: left;
   width: 45%;
 }
-.petitions_ecrites {
+.petitions_right {
   float: right;
   width: 45%;
   margin-left: 35px;

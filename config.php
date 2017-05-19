@@ -6,6 +6,6 @@ $GLOBALS['dbPass']="";
 $GLOBALS['dbName']="bhate001";
 
 $GLOBALS['siteName']="Révolution'eirb";
-$GLOBALS['maxFileSize']='5000';
+$GLOBALS['maxFileSize']='1000000';
 
 ?>

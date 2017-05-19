@@ -29,7 +29,7 @@
               $infos['dateEnd']=$checkDate;
             }
           }else{
-            $infos['dateEnd']='NULL';
+            $infos['dateEnd']=NULL;
           }
           if(!empty($_POST['expSign'])){
             $expSign=intval($_POST['expSign']);
@@ -39,7 +39,7 @@
               $redirectSign=true;
             }
           }else{
-            $infos['expSign']='NULL';
+            $infos['expSign']=NULL;
           }
           if($redirectDate){
             header('Location:home.php?startpetition&errorDate');
@@ -48,7 +48,7 @@
           }else{
             $connect=connection();
             $infos['title']=mysqli_real_escape_string($connect,$infos['title']);
-            $infos['description']=mysqli_real_escape_string($connect,nl2br($infos['description'],false));
+            $infos['description']=htmlspecialchars(mysqli_real_escape_string($connect,$infos['description']));
             $infos['nbSign']=0;
             addPetition($infos);
             header('Location:index.php?petition=all');
