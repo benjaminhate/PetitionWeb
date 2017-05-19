@@ -41,6 +41,20 @@
       ?>
       <div class="user_presentation">
           <?php
+          if(isset($_GET['success'])){
+          ?>
+          <div class="alert alert-success">L'information a bien été modifiée.</div>
+          <?php
+          }
+          ?>
+          <?php
+          if(isset($_GET['errorEmptyInput'])){
+          ?>
+          <div class="alert alert-danger">Le'information envoyée est vide.</div>
+          <?php
+          }
+          ?>
+          <?php
           if(isset($_GET['errorImgExt'])){
           ?>
           <div class="alert alert-danger">Le fichier transmis n'est pas une image valide.</div>
@@ -67,12 +81,59 @@
           <form action="edit.php" method="post" enctype="multipart/form-data">
             <input type="file" id="file" name="img" class="hidden" onchange="this.form.submit();">
             <a onclick="document.getElementById('file').click();" class="imageEdit" style="cursor: pointer;">
-            <div class="imgDiv">
-              <img class="img" src="<?php echo $img; ?>" alt="Generic placeholder image" width="140" height="140">
-              <span class="modifImg">Modifier</span>
-            </div>
+              <div class="imgDiv">
+                <img class="img" src="<?php echo $img; ?>" alt="Generic placeholder image" width="140" height="140">
+                <span class="modifImg">Modifier</span>
+              </div>
             </a>
           </form>
+          <div class="edition">
+            <div class="edit">
+            <form action="edit.php" method="post">
+              <div id="input">
+                <label for="inputName" class="sr-only">Name</label>
+                <input type="name" name="name" id="inputName" class="form-control" placeholder="Nom" value="<?php echo $name; ?>" autofocus>
+              </div>
+              <p class="editInput"><button class="btn btn-success">Changer nom</button></p>
+            </form>
+            </div>
+            <div class="edit">
+              <form action="edit.php" method="post">
+                <div id="input">
+                  <label for="inputSurname" class="sr-only">Surname</label>
+                  <input type="surname" name="surname" id="inputSurname" class="form-control" placeholder="Prénom" value="<?php echo $surname; ?>">
+                </div>
+                <p class="editInput"><button class="btn btn-success">Changer prénom</button></p>
+              </form>
+            </div>
+            <div class="edit">
+              <form action="edit.php" method="post">
+                <div id="input">
+                  <label for="inputPseudo" class="sr-only">Pseudo</label>
+                  <input type="pseudo" name="pseudo" id="inputPseudo" class="form-control" placeholder="Pseudo" value="<?php echo $pseudo; ?>">
+                </div>
+                <p class="editInput"><button class="btn btn-success">Changer pseudo</button></p>
+              </form>
+            </div>
+            <div class="edit">
+              <form action="edit.php" method="post">
+                <div id="input">
+                  <label for="inputEmail" class="sr-only">Email address</label>
+                  <input type="email" name="mail" id="inputEmail" class="form-control" placeholder="Adresse Email" value="<?php echo $email; ?>">
+                </div>
+                <p class="editInput"><button class="btn btn-success">Changer email</button></p>
+              </form>
+            </div>
+            <div class="edit">
+              <form action="edit.php" method="post">
+                <div id="input">
+                  <label for="inputPassword" class="sr-only">Password</label>
+                  <input type="password" name="pass" id="inputPassword" class="form-control" placeholder="Mot de Passe">
+                </div>
+                <p class="editInput"><button class="btn btn-success" type="submit">Changer mot de passe</button></p>
+              </form>
+            </div>
+      </div>
           <?php
           }else{
           ?>
@@ -182,6 +243,7 @@
         include('footer.php');
       ?>
     </div>
+  </div>
 
     <script type="text/javascript">
       function editImg(){

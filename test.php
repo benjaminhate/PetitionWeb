@@ -37,7 +37,7 @@ $title="Test";
 $description="Je teste mon test.php.";
 $categoryId=getCategoryAlea()['0']['id'];
 $userId=getUserAlea()['0']['id'];
-$infos = array('title' => $title, 'description' => $description, 'categoryId' => $categoryId, 'userId' => $userId, 'nbSign' => 0, 'expSign' => 'NULL', 'dateEnd' => 'NULL');
+$infos = array('title' => $title, 'description' => $description, 'categoryId' => $categoryId, 'userId' => $userId, 'nbSign' => 0, 'expSign' => NULL, 'dateEnd' => NULL);
 addPetition($infos);
 
 $title="Test2";
@@ -45,7 +45,7 @@ $description="Je teste mon test.php.";
 $categoryId=getCategoryAlea()['0']['id'];
 $expSign=rand(1,10);
 $userId=getUserAlea()['0']['id'];
-$infos = array('title' => $title, 'description' => $description, 'categoryId' => $categoryId, 'userId' => $userId, 'nbSign' => 0, 'expSign' => $expSign, 'dateEnd' => 'NULL');
+$infos = array('title' => $title, 'description' => $description, 'categoryId' => $categoryId, 'userId' => $userId, 'nbSign' => 0, 'expSign' => $expSign, 'dateEnd' => NULL);
 addPetition($infos);
 
 $title="Test3";

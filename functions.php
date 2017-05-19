@@ -8,8 +8,10 @@ function connection(){
 
 function addCategory($name){
   $connect=connection();
-  $addCat="INSERT INTO Categories (name) VALUES ('$name')";
-  mysqli_query($connect,$addCat);
+  $addCat="INSERT INTO Categories (name) VALUES (?)";
+  $stmt=mysqli_prepare($connect,$addCat);
+  mysqli_stmt_bind_param($stmt,'s',$name);
+  mysqli_stmt_execute($stmt);
   mysqli_close($connect);
 }
 
@@ -25,8 +27,11 @@ function getAllCategories(){
 
 function getCategoryById($id){
 	$connect=connection();
-	$getCategory="SELECT * FROM Categories WHERE id=$id";
-	$res=mysqli_query($connect,$getCategory);
+	$getCategory="SELECT * FROM Categories WHERE id=?";
+	$stmt=mysqli_prepare($connect,$getCategory);
+	mysqli_stmt_bind_param($stmt,'i',$id);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
 	$category=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
 	mysqli_close($connect);
@@ -45,13 +50,14 @@ function getCategoryAlea(){
 
 function addUser($name,$surname,$pseudo,$email,$password,$img='generic.jpg'){
 	$connect=connection();
-	$addUser="INSERT INTO Users (name,surname,pseudo,mail,password,img) VALUES ('".$name."','".$surname."','".$pseudo."','".$email."','".$password."','".$img."')";
-	mysqli_query($connect,$addUser);
+	$addUser="INSERT INTO Users (name,surname,pseudo,mail,password,img) VALUES (?,?,?,?,?,?)";
+	$stmt=mysqli_prepare($connect,$addUser);
+	mysqli_stmt_bind_param($stmt,'ssssss',$name,$surname,$pseudo,$email,$password,$img);
+	mysqli_stmt_execute($stmt);
 	mysqli_close($connect);
 }
 
 function updateUser($infos){
-	$connect=connection();
 	setUserName($infos['name']);
 	setUserSurname($infos['surname']);
 	setUserPseudo($infos['pseudo']);
@@ -60,45 +66,54 @@ function updateUser($infos){
 	if(!empty($infos['password'])){
 		setUserPass($infos['password']);
 	}
-	mysqli_close($connect);
 }
 
 function setUserName($id,$name){
 	$connect=connection();
-	$setName="UPDATE Users SET name=$name WHERE id=$id";
+	$setName="UPDATE Users SET name=? WHERE id=?";
+	$stmt=mysqli_prepare($connect,$setName);
+	mysqli_stmt_bind_param($stmt,'si',$name,$id);
+	mysqli_stmt_execute($stmt);
 	$_SESSION['name']=$name;
-	mysqli_query($connect,$setName);
 	mysqli_close($connect);
 }
 
 function setUserSurname($id,$surname){
 	$connect=connection();
-	$setSurname="UPDATE Users SET surnamename=$surname WHERE id=$id";
+	$setSurname="UPDATE Users SET surname=? WHERE id=?";
+	$stmt=mysqli_prepare($connect,$setSurname);
+	mysqli_stmt_bind_param($stmt,'si',$surname,$id);
+	mysqli_stmt_execute($stmt);
 	$_SESSION['surname']=$surname;
-	mysqli_query($connect,$setSurname);
 	mysqli_close($connect);
 }
 
 function setUserPseudo($id,$pseudo){
 	$connect=connection();
-	$setPseudo="UPDATE Users SET pseudo=$pseudo WHERE id=$id";
+	$setPseudo="UPDATE Users SET pseudo=? WHERE id=?";
+	$stmt=mysqli_prepare($connect,$setPseudo);
+	mysqli_stmt_bind_param($stmt,'si',$pseudo,$id);
+	mysqli_stmt_execute($stmt);
 	$_SESSION['pseudo']=$pseudo;
-	mysqli_query($connect,$setPseudo);
 	mysqli_close($connect);
 }
 
 function setUserMail($id,$mail){
 	$connect=connection();
-	$setMail="UPDATE Users SET mail=$mail WHERE id=$id";
+	$setMail="UPDATE Users SET mail=? WHERE id=?";
+	$stmt=mysqli_prepare($connect,$setMail);
+	mysqli_stmt_bind_param($stmt,'si',$mail,$id);
+	mysqli_stmt_execute($stmt);
 	$_SESSION['mail']=$mail;
-	mysqli_query($connect,$setMail);
 	mysqli_close($connect);
 }
 
 function setUserPass($id,$pass){
 	$connect=connection();
-	$setPass="UPDATE Users SET pass=$pass WHERE id=$id";
-	mysqli_query($connect,$setPass);
+	$setPass="UPDATE Users SET pass=? WHERE id=?";
+	$stmt=mysqli_prepare($connect,$setPass);
+	mysqli_stmt_bind_param($stmt,'si',$pass,$id);
+	mysqli_stmt_execute($stmt);
 	mysqli_close($connect);
 }
 
@@ -114,17 +129,17 @@ function setUserImg($id,$file,$maxsize){
 		}else{
 			$fichier=basename($file['name']);
 			if(move_uploaded_file($file['tmp_name'], $fichier)){
-				$setImg="UPDATE Users SET img='".$file['name']."' WHERE id=$id";
+				$setImg="UPDATE Users SET img=? WHERE id=?";
+				$stmt=mysqli_prepare($connect,$setImg);
+				mysqli_stmt_bind_param($stmt,'si',$img,$id);
+				mysqli_stmt_execute($stmt);
 				$_SESSION['img']=$file['name'];
-				mysqli_query($connect,$setImg);
-				header('Location:profile.php?user='.$_SESSION['id']);
+				header("Location:profile.php?user=".$_SESSION['id']."&edit&success");
 			}else{
 				header("Location:profile.php?user=".$id."&edit&errorImgLoad");
 			}
 		}
-
 	}
-	
 	mysqli_close($connect);
 }
 
@@ -140,8 +155,11 @@ function getAllUsers(){
 
 function getUserById($id){
 	$connect=connection();
-	$getUser="SELECT * FROM Users WHERE id='".$id."'";
-	$res=mysqli_query($connect,$getUser);
+	$getUser="SELECT * FROM Users WHERE id=?";
+	$stmt=mysqli_prepare($connect,$getUser);
+	mysqli_stmt_bind_param($stmt,'i',$id);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
 	$user=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
 	mysqli_close($connect);
@@ -150,8 +168,11 @@ function getUserById($id){
 
 function getUserByMail($mail){
 	$connect=connection();
-	$getUserByMail="SELECT * FROM Users WHERE mail='".$mail."'";
-	$res=mysqli_query($connect,$getUserByMail);
+	$getUserByMail="SELECT * FROM Users WHERE mail=?";
+	$stmt=mysqli_prepare($connect,$getUserByMail);
+	mysqli_stmt_bind_param($stmt,'s',$mail);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
 	$userByMail=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
 	mysqli_close($connect);
@@ -160,8 +181,11 @@ function getUserByMail($mail){
 
 function getUserByPseudo($pseudo){
 	$connect=connection();
-	$getUserByPseudo="SELECT * FROM Users WHERE pseudo='".$pseudo."'";
-	$res=mysqli_query($connect,$getUserByPseudo);
+	$getUserByPseudo="SELECT * FROM Users WHERE pseudo=?";
+	$stmt=mysqli_prepare($connect,$getUserByPseudo);
+	mysqli_stmt_bind_param($stmt,'s',$pseudo);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
 	$userByPseudo=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
 	mysqli_close($connect);
@@ -180,8 +204,10 @@ function getUserAlea(){
 
 function addPetition($infos){
 	$connect=connection();
-	$addPetition="INSERT INTO Petitions (title,categoryId,nbSign,expSign,userId,description,dateEnd) VALUES ('".$infos['title']."','".$infos['categoryId']."',".$infos['nbSign'].",".$infos['expSign'].",'".$infos['userId']."','".$infos['description']."',FROM_UNIXTIME($infos[dateEnd]))";
-	mysqli_query($connect,$addPetition);
+	$addPetition="INSERT INTO Petitions (title,categoryId,nbSign,expSign,userId,description,dateEnd) VALUES (?,?,?,?,?,?,FROM_UNIXTIME(?))";
+	$stmt=mysqli_prepare($connect,$addPetition);
+	mysqli_stmt_bind_param($stmt,'siiiiss',$infos['title'],$infos['categoryId'],$infos['nbSign'],$infos['expSign'],$infos['userId'],$infos['description'],$infos['dateEnd']);
+	mysqli_stmt_execute($stmt);
 	mysqli_close($connect);
 }
 
@@ -197,8 +223,11 @@ function getAllPetitions(){
 
 function getAllPetitionsByCategory($categoryId){
 	$connect=connection();
-	$getAllPetitionByCat="SELECT * FROM Petitions WHERE categoryId='".$categoryId."' ORDER BY dateBegin DESC";
-	$res=mysqli_query($connect,$getAllPetitionByCat);
+	$getAllPetitionByCat="SELECT * FROM Petitions WHERE categoryId=? ORDER BY dateBegin DESC";
+	$stmt=mysqli_prepare($connect,$getAllPetitionByCat);
+	mysqli_stmt_bind_param($stmt,'i',$categoryId);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);
 	mysqli_close($connect);
@@ -259,8 +288,11 @@ function getPetitionAlea(){
 
 function getAllPetitionsByUser($userId){
 	$connect=connection();
-	$getAllPetitionByUser="SELECT * FROM Petitions WHERE userId='".$userId."' ORDER BY dateBegin DESC";
-	$res=mysqli_query($connect,$getAllPetitionByUser);
+	$getAllPetitionByUser="SELECT * FROM Petitions WHERE userId=? ORDER BY dateBegin DESC";
+	$stmt=mysqli_prepare($connect,$getAllPetitionByUser);
+	mysqli_stmt_bind_param($stmt,'i',$userId);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);
 	mysqli_close($connect);
@@ -269,8 +301,11 @@ function getAllPetitionsByUser($userId){
 
 function getPetitionById($id){
 	$connect=connection();
-	$getPetition="SELECT * FROM Petitions WHERE id='".$id."'";
-	$res=mysqli_query($connect,$getPetition);
+	$getPetition="SELECT * FROM Petitions WHERE id=?";
+	$stmt=mysqli_prepare($connect,$getPetition);
+	mysqli_stmt_bind_param($stmt,'i',$id);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
 	$petition=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
 	mysqli_close($connect);
@@ -279,8 +314,11 @@ function getPetitionById($id){
 
 function getPetitionSignedByUser($userId){
 	$connect=connection();
-	$getPetitionSigned="SELECT * FROM Signatures JOIN Petitions ON Petitions.id=Signatures.petitionId WHERE Signatures.userId=$userId";
-	$res=mysqli_query($connect,$getPetitionSigned);
+	$getPetitionSigned="SELECT * FROM Signatures JOIN Petitions ON Petitions.id=Signatures.petitionId WHERE Signatures.userId=?";
+	$stmt=mysqli_prepare($connect,$getPetitionSigned);
+	mysqli_stmt_bind_param($stmt,'i',$userId);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);
 	mysqli_close($connect);
@@ -289,30 +327,38 @@ function getPetitionSignedByUser($userId){
 
 function updateNbSignPetition($id,$nbSign){
 	$connect=connection();
-	$addNbSign="UPDATE Petitions SET nbSign=".$nbSign." WHERE id='".$id."'";
-	mysqli_query($connect,$addNbSign);
-	mysqli_close();
+	$addNbSign="UPDATE Petitions SET nbSign=? WHERE id=?";
+	$stmt=mysqli_prepare($connect,$addNbSign);
+	mysqli_stmt_bind_param($stmt,'ii',$nbSign,$id);
+	mysqli_stmt_execute($stmt);
+	mysqli_close($connect);
 }
 
 function addSignature($userId,$petitionId,$numberth){
 	$connect=connection();
-	$addSignature="INSERT INTO Signatures (petitionId,userId,numberth) VALUES ('$petitionId','$userId',$numberth)";
-	mysqli_query($connect,$addSignature);
-	echo mysqli_error($connect);
+	$addSignature="INSERT INTO Signatures (petitionId,userId,numberth) VALUES (?,?,?)";
+	$stmt=mysqli_prepare($connect,$addSignature);
+	mysqli_stmt_bind_param($stmt,'iii',$petitionId,$userId,$numberth);
+	mysqli_stmt_execute($stmt);
 	mysqli_close($connect);
 }
 
 function cancelSignature($userId,$petitionId){
 	$connect=connection();
-	$cancelSign="DELETE FROM Signatures WHERE userId='".$userId."' AND petitionId='".$petitionId."'";
-	mysqli_query($connect,$cancelSign);
+	$cancelSign="DELETE FROM Signatures WHERE userId=? AND petitionId=?";
+	$stmt=mysqli_prepare($connect,$cancelSign);
+	mysqli_stmt_bind_param($stmt,'ii',$userId,$petitionId);
+	mysqli_stmt_execute($stmt);
 	mysqli_close($connect);
 }
 
 function getSignature($userId,$petitionId){
 	$connect=connection();
-	$getSign="SELECT * FROM Signatures WHERE userId='$userId' AND petitionId='$petitionId'";
-	$res=mysqli_query($connect,$getSign);
+	$getSign="SELECT * FROM Signatures WHERE userId=? AND petitionId=?";
+	$stmt=mysqli_prepare($connect,$getSign);
+	mysqli_stmt_bind_param($stmt,'ii',$userId,$petitionId);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
 	$signature=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
 	mysqli_close($connect);
@@ -413,8 +459,11 @@ function sign_up($name,$surname,$pseudo,$email,$password,$password2){
 
 function getNbPetitionsSigned($userId){
 	$connect=connection();
-	$getSigned="SELECT count(*) FROM Signatures WHERE userId='".$userId."'";
-	$res=mysqli_query($connect,$getSigned);
+	$getSigned="SELECT count(*) FROM Signatures WHERE userId=?";
+	$stmt=mysqli_prepare($connect,$getSigned);
+	mysqli_stmt_bind_param($stmt,'i',$userId);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
 	$nbSigned=mysqli_fetch_assoc($res);
 	mysqli_free_result($res);
 	mysqli_close($connect);

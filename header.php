@@ -1,5 +1,4 @@
 <div class="header">
-
   <div class="top-bar">
     <div class="number">
       <i class="fa fa-users" aria-hidden="true"></i>
@@ -43,7 +42,6 @@
         <h1 class="text">Lancer une pétiton</h1>
         <i class="fa fa-pencil-square-o fa-5" aria-hidden="true"></i>
       </a>
-
     </div>
   </div>
   <div class="navigation">
@@ -57,15 +55,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
             </div>
-            <div class="navbar-collapse collapse" aria-expanded="true" style="">
+            <div class="navbar-collapse collapse" aria-expanded="true">
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="index.php">Accueil</a>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" aria-expanded="false" aria-haspopup="true"role="button"data-toggle="dropdown" href="#">
+                        <a class="dropdown-toggle" aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" href="#">
                           Pétitions
                         </a>
                         <ul class="dropdown-menu">
@@ -77,10 +74,9 @@
                           <li><a href="index.php?petition=all&success">Petitions réussies</a></li>
                           <li><a href="petitionalea.php">Pétition aléatoire</a></li>
                         </ul>
-
                     </li>
                     <li>
-                        <a class="dropdown-toggle" aria-expanded="false" aria-haspopup="true"role="button"data-toggle="dropdown" href="#">
+                        <a class="dropdown-toggle" aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" href="#">
                           Catégories
                         </a>
                         <ul class="dropdown-menu">
@@ -94,15 +90,10 @@
                           ?>
                         </ul>
                     </li>
-
                 </ul>
-
             </div>
-
         </div>
-
     </nav>
-
     </div>
     <div class="search">
       <form class="navbar-form search" action="index.php" method="get">
@@ -115,6 +106,5 @@
         </div>
       </form>
     </div>
-
   </div>
 </div>

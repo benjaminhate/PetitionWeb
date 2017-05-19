@@ -48,7 +48,7 @@
           }else{
             $connect=connection();
             $infos['title']=mysqli_real_escape_string($connect,$infos['title']);
-            $infos['description']=mysqli_real_escape_string($connect,nl2br($infos['description']));
+            $infos['description']=mysqli_real_escape_string($connect,nl2br($infos['description'],false));
             $infos['nbSign']=0;
             addPetition($infos);
             header('Location:index.php?petition=all');
@@ -92,7 +92,8 @@
             }
           ?>
             <form action="home.php" method="post">
-              <div class="form-group">
+              <div class="fiche">
+                <div class="form-group">
                 <label for="title">Titre :</label>
                 <input type="text" id="title" name="title" class="form-control" placeholder="Titre" oninput="validatePetition()">
               </div>
@@ -101,14 +102,14 @@
                 <textarea name="description" id="description" placeholder="Description" cols="50" rows="10" class="form-control" oninput="validatePetition()" style="resize: none;"></textarea>
               </div>
               <div class="form-group">
-              <label for="date"> Date de fin : </label>
+              <label for="date"> Date de fin <small>(optionnel)</small> : </label>
               <br>
               <input type="date" name="dayEnd" placeholder="Jour" class="form-control date"> <b style="font-size: 20px;">/</b>
               <input type="date" name="monthEnd" placeholder="Mois" class="form-control date"> <b style="font-size: 20px;">/</b>
               <input type="date" name="yearEnd" placeholder="Année" class="form-control date"> <br>
               </div>
               <div class="form-group">
-                <label for="number"> Nombre de signatures attendues : </label>
+                <label for="number"> Nombre de signatures attendues <small>(optionnel)</small> : </label>
                 <input type="number" name="expSign" placeholder="Signatures attendues" class="form-control" min="0">
               </div>
               <div class="form-group">
@@ -124,10 +125,11 @@
                     }
                   ?>
                 </select>
-                </div>
-                 <br>
+              </div>
+              </div>
+              <br>
               <div class="click">
-                <button name="createPetition" id="postpetition" class="btn btn-lg btn-primary btn-block" type="submit" disabled="disabled">Submit Petition</button>
+                <button name="createPetition" id="postpetition" class="btn btn-lg btn-primary btn-block" type="submit" disabled="disabled">Créer pétition</button>
               </div>
             </form>
           </div>

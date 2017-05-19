@@ -135,7 +135,7 @@
                 }
                 ?>
                 <label for="InputName">Nom</label>
-                <input type="text" id="name" name="name" placeholder="Nom" class="form-control" oninput="validateSignUpForm()">
+                <input type="text" id="name" name="name" placeholder="Nom" class="form-control" oninput="validateSignUpForm()" autofocus>
                 <label for="InputSurname">Prénom</label>
                 <input type="text" id="surname" name="surname" placeholder="Prénom" class="form-control" oninput="validateSignUpForm()">
                 <label for="InputPseudo">Pseudo</label>
@@ -191,7 +191,7 @@
                 }
                 ?>
                 <label for="InputEmail">Email</label>
-                <input type="text" id="emailIn" name="email" placeholder="Email" class="form-control" oninput="validateSignInForm()">
+                <input type="text" id="emailIn" name="email" placeholder="Email" class="form-control" oninput="validateSignInForm()" autofocus>
                 <label for="InputPassword">Mot de passe</label>
                 <input type="password" id="pwIn" name="password" placeholder="MdP" class="form-control" oninput="validateSignInForm()">
               </div>
@@ -254,7 +254,13 @@ if(isset($_GET['petition'])){
               if(strlen($petition['description'])<150){
                 echo $petition['description'];
               }else{
-                echo substr($petition['description'],0,150);
+                $posbr=strpos($petition['description'],'<br>',147);
+                if($posbr<151){
+                  $shortDes=substr($petition['description'],0,$posbr+4);
+                }else{
+                  $shortDes=substr($petition['description'],0,150);
+                }
+                echo $shortDes;
                 echo '...';
               }
              ?>
