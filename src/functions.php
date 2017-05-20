@@ -38,6 +38,19 @@ function getCategoryById($id){
 	return $category;
 }
 
+function getCategoryByName($name){
+	$connect=connection();
+	$getCategory="SELECT * FROM Categories WHERE name=?";
+	$stmt=mysqli_prepare($connect,$getCategory);
+	mysqli_stmt_bind_param($stmt,'s',$name);
+	mysqli_stmt_execute($stmt);
+	$res=mysqli_stmt_get_result($stmt);
+	$category=mysqli_fetch_assoc($res);
+	mysqli_free_result($res);
+	mysqli_close($connect);
+	return $category;
+}
+
 function getCategoryAlea(){
   	$connect=connection();
   	$getCatAlea="SELECT * FROM Categories ORDER BY RAND() LIMIT 0,1";
@@ -48,9 +61,8 @@ function getCategoryAlea(){
   	return $category;
 }
 
-function addUser($name,$surname,$pseudo,$email,$password,$img='generic.jpg'){
-	$connect=connection();
-	$addUser="INSERT INTO Users (name,surname,pseudo,mail,password,img) VALUES (?,?,?,?,?,?)";
+function addUser($name,$surname,$pseudo,$email,$password,$img='img/generic.jpg'){
+	$connect=connection();	$addUser="INSERT INTO Users (name,surname,pseudo,mail,password,img) VALUES (?,?,?,?,?,?)";
 	$stmt=mysqli_prepare($connect,$addUser);
 	mysqli_stmt_bind_param($stmt,'ssssss',$name,$surname,$pseudo,$email,$password,$img);
 	mysqli_stmt_execute($stmt);
@@ -127,13 +139,14 @@ function setUserImg($id,$file,$maxsize){
 		if($file['size'] > $maxsize){
 			header("Location:profile.php?user=".$id."&edit&errorImgSize");
 		}else{
+			$dossier='img/';
 			$fichier=basename($file['name']);
-			if(move_uploaded_file($file['tmp_name'], $fichier)){
+			if(move_uploaded_file($file['tmp_name'], $dossier.$fichier)){
 				$setImg="UPDATE Users SET img=? WHERE id=?";
 				$stmt=mysqli_prepare($connect,$setImg);
 				mysqli_stmt_bind_param($stmt,'si',$img,$id);
 				mysqli_stmt_execute($stmt);
-				$_SESSION['img']=$file['name'];
+				$_SESSION['img']=$dossier.$file['name'];
 				header("Location:profile.php?user=".$_SESSION['id']."&edit&success");
 			}else{
 				header("Location:profile.php?user=".$id."&edit&errorImgLoad");
@@ -268,7 +281,7 @@ function getAllPetitionsRecent(){
 
 function getAllPetitionsUrg(){
 	$connect=connection();
-	$getAllPetitionurg="SELECT * FROM Petitions WHERE DATE(dateEnd) BETWEEN DATE(NOW()) AND DATE(ADDDATE(NOW(),+7)) ORDER BY dateBegin DESC";
+	$getAllPetitionurg="SELECT * FROM Petitions WHERE DATE(dateEnd) BETWEEN DATE(ADDDATE(NOW(),+1)) AND DATE(ADDDATE(NOW(),+7)) ORDER BY dateBegin DESC";
 	$res=mysqli_query($connect,$getAllPetitionurg);
 	$petitions=mysqli_fetch_all($res,MYSQLI_ASSOC);
 	mysqli_free_result($res);

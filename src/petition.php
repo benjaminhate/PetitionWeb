@@ -48,7 +48,7 @@ if(isset($_GET['petition'])){
               if(strlen($petition['description'])<150){
                 echo str_replace('\r\n', '<br>', $petition['description']);
               }else{
-                $shortDes=substr($petition['description'],0,150);
+                $shortDes=substr($petition['description'],0,160);
                 echo str_replace('\r\n', '<br>', $shortDes);
                 echo '...';
               }

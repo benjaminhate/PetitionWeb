@@ -1,0 +1,15 @@
+Ce fichier donne les informations nécessaires pour installer le site web de Révolution'EIRB
+
+Étapes :
+1.  Allez dans le fichier /src/config.php afin de configurer les variables pour se connecter à la base de donnée.
+	Vous pourrez aussi configurer le nom du site internet (site Révolution'eir ne vous plaît pas) et configurer la taille maximale des images envoyés
+2.	Allez sur votre navigateur web et passez en URL le chemin permettant d'accès au fichier /src/test.php.
+	ATTENTION : il faut que vous ayez un serveur capable d'exécuter du code PHP afin de faire fonctionner le site.
+	Ce fichier vous permet d'installer et d'initialiser la base de donnée du site.
+	Si vous ne voulez pas initialiser la base de donnée, lancez le fichier /src/install.php à la place.
+3.	Si vous avez exécuté le fichier /src/test.php, il a du faire une redirection automatique vers la page principale du site.
+	Sinon, exécutez le fichier /src/index.php afin de vous rendre à la page principale.
+
+Note : si l'exécution de /src/test.php ne fonctionne pas, vous pourrez accéder au même résultat en exécutant d'abord /src/install.php puis en installant la base de donnée contenue dans le fichier 01.sql
+
+Si vous avez des problèmes avec l'installation, veuillez contacter le web master : benjamin.hate@enseirb-matmeca.fr

@@ -32,7 +32,7 @@ $createUsers="CREATE TABLE IF NOT EXISTS Users (
   pseudo VARCHAR(255) NOT NULL,
   mail VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  img VARCHAR(255) DEFAULT 'generic.jpg',
+  img VARCHAR(255) DEFAULT 'img/generic.jpg',
   PRIMARY KEY (id)
 )";
 

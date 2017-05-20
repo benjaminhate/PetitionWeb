@@ -1,0 +1,52 @@
+Ce fichier contient les informations sur les différents fichiers présents dans ce dossier.
+
+--ARCHITECTURE--
+L'affichage du site se fait à partir de 3 fichiers différents : index.php qui contient l'affichage principal ainsi que l'affichage de connection, profile.php qui contient l'affichage des pages de profil des utilisateurs et home.php qui contient l'affichage de la création de pétition.
+Tous les autres fichiers servent à la configuration/installation du site ou à l'exécution de certain code spécifique.
+
+--DOSSIERS--
+/src/font-awesome : dossier contenant des fonts utilisés sur le site.
+/src/img : dossier contenant toutes les images pour le site. C'est dans ce dossier que seront stockées les images uploadés par l'utilisateur pour changer sa photo de profil.
+
+--FICHIERS--
+01.sql : fichier contenant la base de donnée pour faire les tests du site.
+
+architecture.txt : fichier contenant les informations sur les différents fichiers présents dans le dossier.
+
+installation.txt : fichier contenant les informations pour bien réussir l'installation du site.
+
+/src/accueil.php : fichier contenant l'affichage de l'écran d'accueil visible depuis index.php
+
+/src/bootstrap-theme.min.css,/src/bootstrap.min.css,/src/bootstrap.min.js : fichiers de la librairie Bootstrap utilisée sur le site.
+
+/src/config.php : fichier de configuration des diverses variables globales utilisées sur le site. A configurer AVANT d'installer la base de donnée ou de lancer le site.
+
+/src/connect.php : fichier contenant l'affichage de l'écran de connection et d'inscription visible depuis index.php.
+
+/src/edit.php : fichier de vérification des données lors de l'édition de profil utilisateur.
+
+/src/footer.php : fichier contenant l'affichage du bas de page visible depuis toutes les pages du site.
+
+/src/functions.php : fichier contenant toutes les fonctions utilisées au travers du site.
+
+/src/header.php : fichier contenant l'affichage du haut de page visible depuis toutes les pages du site.
+
+/src/home.php : fichier contenant l'affichage de la création de pétition.
+
+/src/index.php : fichier contenant l'affichage principal du site.
+
+/src/install.php : fichier d'installation de la base de donnée.
+
+/src/logout.php : fichier permettant la déconnection de l'utilisateur.
+
+/src/petition.php : fichier contenant l'affichage de l'écran de visualisation de toutes les pétitions, des pétitions ciblées et de la page propre à chaque pétition.
+
+/src/petitionalea.php : fichier permettant d'afficher une pétition aléatoire.
+
+/src/profile.php : fichier contenant l'affichage de la page de profil des utilisateurs.
+
+/src/sign_petition.php : fichier permettant à l'utilisateur de signer une pétition ou de retirer sa pétition.
+
+/src/style.css : fichier contenant le style CSS de toutes les pages du site.
+
+/src/test.php : fichier permettant d'installer et d'initialiser la base de donnée du site.

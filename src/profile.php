@@ -140,7 +140,7 @@
           <div class="imgDiv imageEdit">
             <img class="img" src="<?php echo $img; ?>" alt="Generic placeholder image" width="140" height="140">
           </div>
-          <?php if($_GET['user']==$_SESSION['id']){ ?>
+          <?php if(isset($_SESSION['id']) && $_GET['user']==$_SESSION['id']){ ?>
           <div class="infos">
             <h4><b>Nom</b> : <?php echo $name; ?></h4>
             <h4><b>Prénom</b> : <?php echo $surname; ?></h4>

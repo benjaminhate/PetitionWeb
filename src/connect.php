@@ -68,15 +68,15 @@ if (isset($_GET['signup'])) {
         <?php
         }
         ?>
-        <label for="InputName">Nom</label>
+        <label for="InputName">Nom <small>(minimum 2 caractères)</small></label>
         <input type="text" id="name" name="name" placeholder="Nom" class="form-control" oninput="validateSignUpForm()" autofocus>
-        <label for="InputSurname">Prénom</label>
+        <label for="InputSurname">Prénom <small>(minimum 2 caractères)</small></label>
         <input type="text" id="surname" name="surname" placeholder="Prénom" class="form-control" oninput="validateSignUpForm()">
-        <label for="InputPseudo">Pseudo</label>
+        <label for="InputPseudo">Pseudo <small>(minimum 2 caractères)</small></label>
         <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" class="form-control <?php if(isset($_GET['errorPseudoUsed'])){echo 'errorPseudoUsed';} ?>" oninput="validateSignUpForm()">
         <label for="InputEmail">Email</label>
         <input type="email" id="emailUp" name="email" placeholder="Email" class="form-control <?php if(isset($_GET['errorUserExist'])){echo 'errorUserExist';} ?>" oninput="validateSignUpForm()">
-        <label for="InputPassword">Mot de passe</label>
+        <label for="InputPassword">Mot de passe <small>(minimum 6 caractères)</small></label>
         <input type="password" id="pw1" name="password" placeholder="MdP" class="form-control" oninput="validateSignUpForm()">
         <label for="InputConfirmPassword">Confirmer le mot de passe</label>
         <input type="password" id="pw2" name="confirm_password" placeholder="Confirmer MdP" class="form-control" oninput="validateSignUpForm()">
